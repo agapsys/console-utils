@@ -2,7 +2,7 @@
 
 Welcome to the Console Utilities project.
 
-**Attention:** If you obtained the source from a snapshot branch be aware that such branch can contain unstable code or even uncompilable code.
+**Attention:** If you obtained the source from a **snapshot** branch be aware that such branch can contain unstable code or even uncompilable code.
 
 ## Compiling
 
