@@ -16,6 +16,8 @@
 
 package com.agapsys.utils.console;
 
+import java.util.regex.Pattern;
+
 /**
  * Builds escape sequences for formatted console output
  * @author Leandro Oliveira (leandro@agapsys.com)
@@ -149,11 +151,13 @@ public class FormatEscapeBuilder {
 		
 		if (!attrCodes.isEmpty()) {
 			attrCodes = attrCodes.substring(0, attrCodes.length() - 1);
-		
-			return String.format("\033[%sm%s\033[0m",
-				attrCodes,
-				msg
-			);
+			String[] lines = msg.split(Pattern.quote("\n"));
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < lines.length; i++) {
+				if (i > 0) sb.append("\n");
+				sb.append(String.format("\033[%sm%s\033[0m", attrCodes, lines[i]));
+			}
+			return sb.toString();
 		} else {
 			return msg;
 		}

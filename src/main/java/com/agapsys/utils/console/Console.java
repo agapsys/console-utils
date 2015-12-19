@@ -24,43 +24,27 @@ import java.util.Scanner;
  */
 public class Console {
 	// CLASS SCOPE =============================================================
-	/** 
-	 * Prints a message in system console.
-	 * @param msg message to be printed.
-	 */
-	public static void print(String msg) {
-		System.out.print(msg);
+	public static String getOutputString(ConsoleColor fgColor, String message, Object...args) {
+		if (args.length > 0)
+			message = String.format(message, args);
+		
+		return new FormatEscapeBuilder().setFgColor(fgColor).escape(message);
 	}
 	
-	/**
-	 * Prints a formatted message in system console.
-	 * @param format format string
-	 * @param args parameters to be added to final string
-	 * @see String#format(String, Object...)
-	 */
-	public static void printf(String format, Object...args) {
-		print(String.format(format, args));
-	}
-	// -------------------------------------------------------------------------
-	
-	/** 
-	 * Prints a message in system console. 
-	 * A line break will be appended at the end of the message.
-	 * @param msg message to be printed.
-	 */
-	public static void println(String msg) {
-		System.out.println(msg);
+	public static void print(ConsoleColor fgColor, String message, Object...args) {
+		System.out.print(getOutputString(fgColor, message, args));
 	}
 	
-	/**
-	 * Prints a formatted message in system console. 
-	 * A line break will be appended at the end of the message.
-	 * @param format format string
-	 * @param args parameters to be added to final string
-	 * @see String#format(String, Object...)
-	 */
-	public static void printlnf(String format, Object...args) {
-		println(String.format(format, args));
+	public static void print(String message, Object...args) {
+		print(ConsoleColor.DEFAULT, message, args);
+	}
+	
+	public static void println(ConsoleColor fgColor, String message, Object...args) {
+		System.out.println(getOutputString(fgColor, message, args));
+	}
+	
+	public static void println(String message, Object...args) {
+		println(ConsoleColor.DEFAULT, message, args);
 	}
 	
 	private static Scanner scanner = null;	
