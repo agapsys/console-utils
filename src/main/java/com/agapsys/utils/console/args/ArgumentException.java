@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package com.agapsys.utils.console;
+package com.agapsys.utils.console.args;
 
-class LockableObject {
-	private boolean locked = false;
+public class ArgumentException extends Exception {
+	private ArgumentDefinition argDefinition;
 	
-	protected void throwIfLocked() {
-		if (isLocked())
-			throw new IllegalStateException("Instance is locked");
+	public ArgumentException(ArgumentDefinition argDefinition, String message) {
+		super(message);
+		
+		if (argDefinition == null)
+			throw new IllegalArgumentException("Argument definition cannot be null");
+		
+		this.argDefinition = argDefinition;
 	}
 	
-	protected boolean isLocked() {
-		return locked;
+	public ArgumentDefinition getArgDefinition() {
+		return argDefinition;
 	}
-	
-	protected void setLocked(boolean locked) {
-		this.locked = locked;
-	}
+	// =========================================================================
 }

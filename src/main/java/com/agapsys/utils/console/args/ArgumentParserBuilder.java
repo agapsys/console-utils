@@ -14,44 +14,29 @@
  * limitations under the License.
  */
 
-package com.agapsys.utils.console;
+package com.agapsys.utils.console.args;
 
-import java.util.List;
-
-public abstract class HelpArgumentDefinition extends ArgumentDefinition {
+public class ArgumentParserBuilder {
+	/*
 	// CLASS SCOPE =============================================================
-	private static final String DEFAULT_DESCRIPTION = "Shows help instructions";
+
 	// =========================================================================
 
 	// INSTANCE SCOPE ==========================================================
-	public HelpArgumentDefinition() {
-		super('h', "help");
+	private final List<ArgumentDefinition> argDefinitions = new LinkedList<>();
+	private Boolean showHelpOnError;
+	
+	public ArgumentParserBuilder() {}
+	
+	public ArgumentParserBuilder addArgDefinition(ArgumentDefinition argDefinition) {
+		String 
+		return this;
 	}
 	
-	@Override
-	public String getDescription() {
-		return DEFAULT_DESCRIPTION;
-	}
-	
-	/** @return help title. */
-	protected abstract String getTitle();
-	
-	/** @return usage info. */
-	protected abstract String getUsageInfo();
+	public ArgumentParser getParser() {
 		
-	public void displayHelp(ArgumentParser parser, List<String> params) {
-//		String
-//		
-//		String title = getTitle();
-//		if (title == null)
-//			title = "";
-//		
-//		String usage = getUsage();
-//		if (usage)
-//		
 	}
+	
 	// =========================================================================
-
-
-
+	*/
 }

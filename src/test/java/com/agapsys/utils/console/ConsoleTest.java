@@ -16,10 +16,11 @@ package com.agapsys.utils.console;
  * limitations under the License.
  */
 
+import com.agapsys.utils.console.printer.ConsolePrinter;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import static org.junit.Assert.*;
 import org.junit.After;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,27 +39,27 @@ public class ConsoleTest {
 	
 	@Test
 	public void testPrintln() {
-		Console.println("OUT: abc");
-		Console.println("OUT: def");
+		ConsolePrinter.println("OUT: abc");
+		ConsolePrinter.println("OUT: def");
 		assertEquals("OUT: abc\nOUT: def\n", outContent.toString());
 	}
 	
 	@Test
 	public void testPrintlnf() {
-		Console.printlnf("OUT: %s, %s", "1", "2");
+		ConsolePrinter.println("OUT: %s, %s", "1", "2");
 		assertEquals("OUT: 1, 2\n", outContent.toString());
 	}
 	
 	@Test
 	public void testPrint() {
-		Console.print("OUT: abc");
-		Console.print("OUT: def");
+		ConsolePrinter.print("OUT: abc");
+		ConsolePrinter.print("OUT: def");
 		assertEquals("OUT: abcOUT: def", outContent.toString());
 	}
 	
 	@Test
 	public void testPrintf() {
-		Console.printf("OUT: %s, %s", "1", "2");
+		ConsolePrinter.print("OUT: %s, %s", "1", "2");
 		assertEquals("OUT: 1, 2", outContent.toString());
 	}
 }

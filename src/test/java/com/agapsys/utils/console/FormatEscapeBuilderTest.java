@@ -15,6 +15,9 @@
  */
 package com.agapsys.utils.console;
 
+import com.agapsys.utils.console.printer.ConsoleFormat;
+import com.agapsys.utils.console.printer.FormatEscapeBuilder;
+import com.agapsys.utils.console.printer.ConsoleColor;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

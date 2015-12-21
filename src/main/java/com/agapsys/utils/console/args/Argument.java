@@ -13,39 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.agapsys.utils.console;
+
+package com.agapsys.utils.console.args;
+
+import java.util.List;
 
 /**
- * Console text formats.
- * For details, check <a href="http://misc.flogisoft.com/bash/tip_colors_and_formatting">this link</a>
+ * Represents an argument passed to application
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
-public enum ConsoleFormat {
-	BOLD       (1, 21),
-	DIM        (2, 22),
-	UNDERLINED (4, 23),
-	BLINK      (5, 25),
-	REVERSE    (7, 27),
-	HIDDEN     (8, 28);
-
-	private final int setCode;
-	private final int resetCode;
-
-	private ConsoleFormat(int setCode, int resetCode) {
-		this.setCode = setCode;
-		this.resetCode = resetCode;
-	}
-
-	public int getSetCode() {
-		return setCode;
-	}
-
-	public int getResetCode() {
-			return resetCode;
-		}
+public interface Argument {
+	/**
+	 * Returns argument definition.
+	 * @return argument definition.
+	 */
+	public ArgumentDefinition getDefinition();
 	
-	@Override
-	public String toString() {
-		return name();
-	}
+	/**
+	 * Returns the parameters passed to this argument.
+	 * @return parameters passed to this argument. If there is no parameters, returns an empty list.
+	 */
+	public List<String> getParameters();
+	
+	/** 
+	 * Returns the parser associated with the argument.
+	 * @return associated parser.
+	 */
+	public ArgumentParser getParser();
 }

@@ -14,49 +14,53 @@
  * limitations under the License.
  */
 
-package com.agapsys.utils.console;
-
-import java.util.Scanner;
+package com.agapsys.utils.console.printer;
 
 /**
- * Console utilities
+ * ConsolePrinter utilities
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
-public class Console {
+public class ConsolePrinter {
 	// CLASS SCOPE =============================================================
-	public static String getOutputString(ConsoleColor fgColor, String message, Object...args) {
+	public static String getColorString(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
 		if (args.length > 0)
 			message = String.format(message, args);
 		
-		return new FormatEscapeBuilder().setFgColor(fgColor).escape(message);
+		return new FormatEscapeBuilder().setFgColor(fgColor).setBgColor(bgColor).escape(message);
+	}
+	
+	public static String getColorString(ConsoleColor fgColor, String message, Object...args) {
+		return getColorString(fgColor, ConsoleColor.DEFAULT, message, args);
+	}
+	
+	
+	public static void print(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
+		System.out.print(getColorString(fgColor, bgColor, message, args));
 	}
 	
 	public static void print(ConsoleColor fgColor, String message, Object...args) {
-		System.out.print(getOutputString(fgColor, message, args));
+		print(fgColor, ConsoleColor.DEFAULT, message, args);
 	}
 	
 	public static void print(String message, Object...args) {
 		print(ConsoleColor.DEFAULT, message, args);
 	}
 	
+	
+	public static void println(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
+		System.out.println(getColorString(fgColor, bgColor, message, args));
+	}
+	
 	public static void println(ConsoleColor fgColor, String message, Object...args) {
-		System.out.println(getOutputString(fgColor, message, args));
+		println(fgColor, ConsoleColor.DEFAULT, message, args);
 	}
 	
 	public static void println(String message, Object...args) {
 		println(ConsoleColor.DEFAULT, message, args);
 	}
-	
-	private static Scanner scanner = null;	
-	public static Scanner getScanner() {
-		if (scanner == null)
-			scanner = new Scanner(System.in);
-		
-		return scanner;
-	}
 	// =========================================================================
 
 	// INSTANCE SCOPE ==========================================================
-	private Console() {}
+	private ConsolePrinter() {}
 	// =========================================================================
 }

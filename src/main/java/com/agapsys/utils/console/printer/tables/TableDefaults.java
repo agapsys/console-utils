@@ -13,23 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.agapsys.utils.console.printer.tables;
 
-package com.agapsys.utils.console;
+import java.util.List;
 
 /**
- * Represents an argument definition which has detailed description
+ *
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
-public abstract class DetailedArgumentDefinition extends ArgumentDefinition {
-
-	public DetailedArgumentDefinition(Character shortName, String longName) {
-		super(shortName, longName);
-	}
-
-	/**
-	 * Returns detailed description.
-	 * @return detailed description.
-	 */
-	public abstract String getLongDescription();
-
+public interface TableDefaults {
+	public List<CellProperties> getColumnDefinitions();
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.agapsys.utils.console;
+package com.agapsys.utils.console.args;
 
 public class ArgumentParser {
 	// CLASS SCOPE =============================================================

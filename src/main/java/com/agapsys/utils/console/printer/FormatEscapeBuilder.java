@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.agapsys.utils.console;
+package com.agapsys.utils.console.printer;
 
 import java.util.regex.Pattern;
 
@@ -135,8 +135,11 @@ public class FormatEscapeBuilder {
 	
 	
 	public String escape(String msg) {
-		if (msg == null || msg.trim().isEmpty())
-			throw new IllegalArgumentException("msg == null or msg.isEmpty()");
+		if (msg == null)
+			throw new IllegalArgumentException("message cannot be null");
+		
+		if (msg.isEmpty())
+			return msg;
 		
 		String attrCodes = String.format("%s%s%s%s%s%s%s",
 			bgColor != null ? bgColor.getBgCode() + ";" : "",

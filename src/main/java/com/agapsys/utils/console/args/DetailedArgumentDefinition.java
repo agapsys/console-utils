@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package com.agapsys.utils.console;
+package com.agapsys.utils.console.args;
 
-public class ArgumentException extends Exception {
-	private ArgumentDefinition argDefinition;
-	
-	public ArgumentException(ArgumentDefinition argDefinition, String message) {
-		super(message);
-		
-		if (argDefinition == null)
-			throw new IllegalArgumentException("Argument definition cannot be null");
-		
-		this.argDefinition = argDefinition;
+/**
+ * Represents an argument definition which has detailed description
+ * @author Leandro Oliveira (leandro@agapsys.com)
+ */
+public abstract class DetailedArgumentDefinition extends ArgumentDefinition {
+
+	public DetailedArgumentDefinition(Character shortName, String longName) {
+		super(shortName, longName);
 	}
-	
-	public ArgumentDefinition getArgDefinition() {
-		return argDefinition;
-	}
-	// =========================================================================
+
+	/**
+	 * Returns detailed description.
+	 * @return detailed description.
+	 */
+	public abstract String getLongDescription();
+
 }
