@@ -17,7 +17,6 @@
 package com.agapsys.utils.console.printer.tables;
 
 import com.agapsys.utils.console.printer.ConsolePrinter;
-import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 
@@ -64,11 +63,10 @@ class Cell {
 	}
 	
 	public String getDisplayString() {
-		String[] displayStringArray = getWrappedValue().split(Pattern.quote("\n"));
+		String displayString = getValue();
 		StringBuilder sb = new StringBuilder();
 		
-		for (int i = 0; i < displayStringArray.length; i++) {
-			int delta = cellProperties.getWrapLength() - displayStringArray[i].length();
+			int delta = cellProperties.getWrapLength() - displayString.length();
 
 			String padding;
 			if (delta > 0) {
@@ -78,16 +76,13 @@ class Cell {
 			}
 
 			if (cellProperties.getCellAlignment() == CellAlignment.LEFT) {
-				displayStringArray[i] = displayStringArray[i] + padding;
+				displayString = displayString + padding;
 			} else {
-				displayStringArray[i] = padding + displayStringArray[i];
+				displayString = padding + displayString;
 			}
 
-			displayStringArray[i] = ConsolePrinter.getColorString(cellProperties.getFgColor(), cellProperties.getBgColor(), displayStringArray[i]);
-			sb.append(displayStringArray[i]);
-			if (i < displayStringArray.length - 1)
-				sb.append("\n");
-		}
+			displayString = ConsolePrinter.getColorString(cellProperties.getFgColor(), cellProperties.getBgColor(), displayString);
+			sb.append(displayString);
 		
 		return sb.toString();
 	}

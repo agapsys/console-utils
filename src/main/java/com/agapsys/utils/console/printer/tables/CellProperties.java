@@ -18,7 +18,7 @@ package com.agapsys.utils.console.printer.tables;
 
 import com.agapsys.utils.console.printer.ConsoleColor;
 
-public class CellProperties {
+class CellProperties {
 	// CLASS SCOPE =============================================================
 	private static Object __applyObject(Object defaultObj, Object custom) {
 		if (custom != null)
@@ -45,12 +45,8 @@ public class CellProperties {
 	private final CellAlignment alignment;
 	private final ConsoleColor  fgColor;
 	private final ConsoleColor  bgColor;
-
-	CellProperties() {
-		this(null, null, null, null);
-	}
 	
-	CellProperties(Integer wrapLength, CellAlignment alignment, ConsoleColor fgColor, ConsoleColor bgColor) {
+	public CellProperties(Integer wrapLength, CellAlignment alignment, ConsoleColor fgColor, ConsoleColor bgColor) {
 		if (wrapLength != null && wrapLength < 1)
 			throw new IllegalArgumentException(String.format("Invalid wrap length: %d", wrapLength));
 

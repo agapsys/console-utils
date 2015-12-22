@@ -16,68 +16,105 @@
 
 package com.agapsys.utils.console.printer.tables;
 
+import com.agapsys.utils.console.printer.ConsoleColor;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class RowBuilder {
-	private final List<Cell> cells = new LinkedList<>();
-	private final TableBuilder tableBuilder;
+public final class RowBuilder {
+	// CLASS SCOPE =============================================================
+	// =========================================================================
 
-	public RowBuilder() {
-		tableBuilder = null;
+	// INSTANCE SCOPE ==========================================================
+	private final List<Cell> cells = new LinkedList<>();
+	private final TableBuilder tableBuiler;
+	
+	private boolean locked = false;
+	
+	RowBuilder(TableBuilder tableBuilder, boolean empty) {
+		if (tableBuilder == null)
+			throw new IllegalArgumentException("Table builder cannot be nulll");
+		
+		List<CellProperties> columns = tableBuilder._getColumns();
+		this.tableBuiler = tableBuilder;
+		
+		if (empty) {
+			locked = true;
+			for (CellProperties props : columns) {
+				addCell();
+			}
+		}
 	}
 	
 	public RowBuilder(TableBuilder tableBuilder) {
-		if (tableBuilder == null)
-			throw new IllegalArgumentException("Table builder cannot be null");
+		this(tableBuilder, false);
 		
-		this.tableBuilder = tableBuilder;
+		if (tableBuilder._getColumns().isEmpty())
+			throw new IllegalArgumentException("Table builder does not have column definitions");
+		
+		tableBuilder._lockColumns();
 	}
 	
 	private CellProperties __getDefaultCellProps(int index) {
 		String errMsg = "There is no default properties for column index " + index;
+		List<CellProperties> columns = tableBuiler._getColumns();
 		
-		if (tableBuilder == null)
+		if (index > columns.size() - 1)
 			throw new IllegalStateException(errMsg);
 		
-		ColumnDefaults defaults = tableBuilder.getDefaults();
-		
-		if (defaults == null || defaults.getColumnDefinitions().size() < (index + 1))
-			throw new IllegalStateException(errMsg);
-		
-		return defaults.getColumnDefinitions().get(index);
+		return columns.get(index);
 	}
 	
-	private CellProperties getNextDefaultCellProps() {
-		int i = __getCells().size();
-		return __getDefaultCellProps(i);
-	}
-	
-	public RowBuilder addCell(CellProperties cellProps, String value, Object...args) {
-		if (tableBuilder == null) {
-			if (!cellProps._isFulfilled())
-				throw new IllegalArgumentException("cellProps must be fulfilled");
-		} else {
-			cellProps = CellProperties._apply(getNextDefaultCellProps(), cellProps);
-		}
+	private RowBuilder __addCell(boolean allowNull, CellAlignment alignment, ConsoleColor fgColor, ConsoleColor bgColor, String value, Object...valueArgs) {
+		if (alignment == null && !allowNull)
+			throw new IllegalArgumentException("Alignment cannot be null");
 		
-		Cell cell = new Cell(cellProps, value, args);
-		cells.add(cell);
+		if (fgColor == null && !allowNull)
+			throw new IllegalArgumentException("Foreground color cannot be null");
+		
+		if (bgColor == null && !allowNull)
+			throw new IllegalArgumentException("Background color cannot be null");
+		
+		if (locked)
+			throw new IllegalStateException("Row is fully defined");
+		
+		CellProperties column = __getDefaultCellProps(cells.size());
+		CellProperties tmpProperties = new CellProperties(null, alignment, fgColor, bgColor);
+		
+		CellProperties effectiveProperties = CellProperties._apply(column, tmpProperties);
+		
+		cells.add(new Cell(effectiveProperties, value, valueArgs));
 		return this;
 	}
 	
-	public RowBuilder addCell(String value, Object...args) {		
-		CellProperties cellProperties = getNextDefaultCellProps();
-		addCell(cellProperties, value, args);
-		return this;
+	public RowBuilder addCell(CellAlignment alignment, ConsoleColor fgColor, ConsoleColor bgColor, String value, Object...valueArgs) {
+		return __addCell(false, alignment, fgColor, bgColor, value, valueArgs);
 	}
-		
+	
+	public RowBuilder addCell(ConsoleColor fgColor, ConsoleColor bgColor, String value, Object...args) {
+		return __addCell(true, CellAlignment.LEFT, fgColor, bgColor, value, args);
+	}
+	
+	public RowBuilder addCell(ConsoleColor fgColor, String value, Object...args) {
+		return addCell(fgColor, ConsoleColor.DEFAULT, value, args);
+	}
+	
+	public RowBuilder addCell(String value, Object...args) {
+		return addCell(ConsoleColor.DEFAULT, value, args);
+	}
+	
 	public RowBuilder addCell() {
 		return addCell("");
 	}
 	
-	public String getRowString() {
+	public TableBuilder endRow() {
+		locked = true;
+		tableBuiler._getRows().add(this);
+		tableBuiler._clearCurrentRow();
+		return tableBuiler;
+	}
+	
+	String _getRowString() {
 		if (cells.isEmpty())
 			return "";
 				
@@ -120,10 +157,6 @@ public class RowBuilder {
 		}
 		
 		return sb.toString();		
-	}
-	
-	List<Cell> __getCells() {
-		return cells;
 	}
 	
 	@Override

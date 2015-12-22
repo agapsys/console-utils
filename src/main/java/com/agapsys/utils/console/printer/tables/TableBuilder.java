@@ -15,6 +15,7 @@
  */
 package com.agapsys.utils.console.printer.tables;
 
+import com.agapsys.utils.console.printer.ConsoleColor;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,41 +23,79 @@ public class TableBuilder {
 	// CLASS SCOPE =============================================================
 	// =========================================================================
 
-	// =========================================================================	
+	// INSTANCE SCOPE ==========================================================	
+	private final List<CellProperties> columns = new LinkedList<>();
+	private final List<RowBuilder> rows = new LinkedList<>();
 	
-	private final List<String> rows = new LinkedList<>();
+	private RowBuilder currentRow = null;
+	private boolean lockedColumns = false;
 	
-	private ColumnDefaults tableDefaults = null;
+	public TableBuilder addCol(int wrapLength) {
+		return addCol(wrapLength, CellAlignment.LEFT);
+	}
 	
-	public TableBuilder setDefaults(ColumnDefaults defaults) {
-		if (this.tableDefaults != null)
-			throw new IllegalStateException("Defaults already set");
+	public TableBuilder addCol(int wrapLength, CellAlignment alignment) {
+		if (lockedColumns)
+			throw new IllegalStateException("Columns are already set");
 		
-		if (defaults == null)
-			throw new IllegalArgumentException("Defaults cannot be null");
+		if (alignment == null)
+			throw new IllegalArgumentException("Alignment cannot be null");
 		
-		this.tableDefaults = defaults;
+		columns.add(new CellProperties(wrapLength, alignment, ConsoleColor.DEFAULT, ConsoleColor.DEFAULT));
 		return this;
 	}
 	
-	public ColumnDefaults getDefaults() {
-		return tableDefaults;
+	private RowBuilder __createRow(boolean emptyRow) {
+		if (columns.isEmpty())
+			throw new IllegalStateException("Pending column definitions");
+		
+		if (currentRow != null)
+			throw new IllegalStateException("There is an open row");
+		
+		lockedColumns = true;
+		return new RowBuilder(this, emptyRow);
 	}
 	
-	public TableBuilder addRow(String row) {
-		if (row == null)
-			throw new IllegalArgumentException("Row cannot be null");
+	public TableBuilder addRow(RowBuilder row) {
+		if (currentRow != null)
+			throw new IllegalStateException("There is an open row");
 		
 		rows.add(row);
 		return this;
 	}
-		
+	
+	public RowBuilder addRow() {
+		currentRow = __createRow(false);
+		return currentRow;
+	}
+	
+	public TableBuilder addEmptyRow() {
+		rows.add(__createRow(true));
+		return this;
+	}
+	
+	List<CellProperties> _getColumns() {
+		return columns;
+	}
+	
+	List<RowBuilder> _getRows() {
+		return rows;
+	}
+	
+	void _lockColumns() {
+		this.lockedColumns = true;
+	}
+	
+	void _clearCurrentRow() {
+		this.currentRow = null;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
-		for (String row : rows) {
-			sb.append(row).append("\n");
+		for (RowBuilder row : rows) {
+			sb.append(row._getRowString()).append("\n");
 		}
 		
 		return sb.toString();
