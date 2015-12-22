@@ -16,6 +16,7 @@
 
 package com.agapsys.utils.console.args;
 
+import com.agapsys.utils.console.printer.tables.TableBuilder;
 import java.util.List;
 
 /**
@@ -26,6 +27,7 @@ public class HelpOptionDefinition implements OptionDefinition {
 	private static final Character DEFAULT_SHORT_NAME  = 'h';
 	private static final String    DEFAULT_LONG_NAME   = "--help";
 	private static final String    DEFAULT_DESCRIPTION = "Shows usage instructions";
+	private static final int       DEFAULT_TABLE_WIDTH = 80;
 	// =========================================================================
 
 	// INSTANCE SCOPE ==========================================================
@@ -43,26 +45,52 @@ public class HelpOptionDefinition implements OptionDefinition {
 	public boolean isUnique() {
 		return true;
 	}
-
-	protected int getOptionColWrapLength() {
-		// TODO return the maximum length of all registered option definitions
-		// TODO lazy check to avoid calculation on each call
-		throw new UnsupportedOperationException();
+	
+	protected String getGlobalHelpString(OptionParser parser) {
+		int firstColLength = 0;
+		final String FIRST_COL_FORMAT = "%s%s, %s%s";
+		for (OptionDefinition optionDefinition : parser.getOptionDefinitions()) {
+			String firstCol = String.format(FIRST_COL_FORMAT, DefaultOptionParser.SHORT_OPTION_PREFIX, optionDefinition.getShortName(), DefaultOptionParser.LONG_OPTION_PREFIX, optionDefinition.getLongName());
+			if (firstCol.length() > firstColLength)
+				firstColLength = firstCol.length();
+		}
+		
+		TableBuilder tb = new TableBuilder()
+			.addCol(firstColLength)
+			.addCol(1)
+			.addCol(DEFAULT_TABLE_WIDTH - firstColLength - 1);
+		
+		for (OptionDefinition optionDefinition : parser.getOptionDefinitions()) {
+			tb.addRow()
+				.addCell(FIRST_COL_FORMAT, optionDefinition.getShortName(), optionDefinition.getLongName())
+				.addCell(optionDefinition.getShortDescription())
+			.endRow();
+		}
+		
+		return tb.toString();
 	}
+	
+	protected String getDetailedHelpString(OptionParser parser, OptionDefinition optionDefinition) {
+		final String FIRST_LINE_FORMAT = "%s%s, %s%s";
+		String firstLine = String.format(FIRST_LINE_FORMAT, DefaultOptionParser.SHORT_OPTION_PREFIX, optionDefinition.getShortName(), DefaultOptionParser.LONG_OPTION_PREFIX, optionDefinition.getLongName());
 
-	protected int getDescriptionColWrapLength() {
-		// TODO return 80 - getOptionColWrapLength()
-		throw new UnsupportedOperationException();
+		
+		sb.append(firstLine).append("\n\t").append(sb)
 	}
-
+	
 	/**
 	 * Returns the help string to be printed to console
 	 * @param parser associated argument parser
 	 * @param params help parameters
 	 * @return the help string to be printed to console
 	 */
-	protected String getHelpString(OptionParser parser, List<String> params) {
-		throw new UnsupportedOperationException();
+	protected String getHelpString(OptionParser parser, List<String> params) throws ParsingException {
+		if (params.size() > 1)
+			throw new ParsingException("Unknown parameter: %s", params.get(1));
+		
+		if (params.size() == 0)
+		
+		
 	}
 
 	@Override

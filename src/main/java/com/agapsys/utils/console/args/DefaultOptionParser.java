@@ -26,8 +26,8 @@ import java.util.Map;
  */
 class DefaultOptionParser extends OptionParser {
 	// CLASS SCOPE =============================================================
-	private static final String SHORT_OPTION_PREFIX = "-";
-	private static final String LONG_OPTION_PREFIX  = "--";
+	static final String SHORT_OPTION_PREFIX = "-";
+	static final String LONG_OPTION_PREFIX  = "--";
 
 	private static class DefaultOption implements Option {
 		private final OptionDefinition optionDefinition;
