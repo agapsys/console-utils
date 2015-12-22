@@ -16,20 +16,11 @@
 
 package com.agapsys.utils.console.args;
 
-public class ArgumentException extends Exception {
-	private ArgumentDefinition argDefinition;
-	
-	public ArgumentException(ArgumentDefinition argDefinition, String message) {
-		super(message);
-		
-		if (argDefinition == null)
-			throw new IllegalArgumentException("Argument definition cannot be null");
-		
-		this.argDefinition = argDefinition;
+/**
+ * @author Leandro Oliveira (leandro@agapsys.com)
+ */
+public class ParsingException extends Exception {
+	public ParsingException(String message, Object...msgArgs) {
+		super(msgArgs.length > 0 ? String.format(message, msgArgs) : message);
 	}
-	
-	public ArgumentDefinition getArgDefinition() {
-		return argDefinition;
-	}
-	// =========================================================================
 }

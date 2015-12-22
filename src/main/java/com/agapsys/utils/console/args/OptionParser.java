@@ -19,25 +19,19 @@ package com.agapsys.utils.console.args;
 import java.util.List;
 
 /**
- * Represents an argument passed to application
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
-public interface Argument {
-	/**
-	 * Returns argument definition.
-	 * @return argument definition.
-	 */
-	public ArgumentDefinition getDefinition();
-	
-	/**
-	 * Returns the parameters passed to this argument.
-	 * @return parameters passed to this argument. If there is no parameters, returns an empty list.
-	 */
-	public List<String> getParameters();
-	
-	/** 
-	 * Returns the parser associated with the argument.
-	 * @return associated parser.
-	 */
-	public ArgumentParser getParser();
+public abstract class OptionParser {
+	// CLASS SCOPE =============================================================
+	// =========================================================================
+
+	// INSTANCE SCOPE ==========================================================
+	public abstract List<Option> getOptions(String[] args) throws ParsingException;
+
+	public abstract List<OptionDefinition> getOptionDefinitions();
+
+	public abstract OptionDefinition getOptionDefinition(char shortName);
+
+	public abstract OptionDefinition getOptionDefinition(String longName);
+	// =========================================================================
 }

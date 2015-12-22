@@ -16,20 +16,13 @@
 
 package com.agapsys.utils.console.args;
 
+import java.util.List;
+
 /**
- * Represents an argument definition which has detailed description
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
-public abstract class DetailedArgumentDefinition extends ArgumentDefinition {
+public interface Option {
+	public OptionDefinition getOptionDefinition();
 
-	public DetailedArgumentDefinition(Character shortName, String longName) {
-		super(shortName, longName);
-	}
-
-	/**
-	 * Returns detailed description.
-	 * @return detailed description.
-	 */
-	public abstract String getLongDescription();
-
+	public List<String> getParams();
 }
