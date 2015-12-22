@@ -19,37 +19,38 @@ package com.agapsys.utils.console.printer.tables;
 import com.agapsys.utils.console.printer.ConsoleColor;
 
 public class CellProperties {
-	
-	private static Object applyObject(Object defaultObj, Object custom) {
+	// CLASS SCOPE =============================================================
+	private static Object __applyObject(Object defaultObj, Object custom) {
 		if (custom != null)
 			return custom;
 		
 		return defaultObj;
 	}
 	
-	static CellProperties apply(CellProperties defaults, CellProperties custom) {
-		if (!defaults.isFulfilled())
+	static CellProperties _apply(CellProperties defaults, CellProperties custom) {
+		if (!defaults._isFulfilled())
 			throw new IllegalArgumentException("Defaults must be fulfilled");
 		
-		int wrapLength          = (int)           applyObject(defaults.wrapLength, custom.wrapLength);
-		CellAlignment alignment = (CellAlignment) applyObject(defaults.alignment,  custom.alignment);
-		ConsoleColor fgColor    = (ConsoleColor)  applyObject(defaults.fgColor,    custom.fgColor);
-		ConsoleColor bgColor    = (ConsoleColor)  applyObject(defaults.bgColor,    custom.bgColor);
+		int wrapLength          = (int)           __applyObject(defaults.wrapLength, custom.wrapLength);
+		CellAlignment alignment = (CellAlignment) __applyObject(defaults.alignment,  custom.alignment);
+		ConsoleColor fgColor    = (ConsoleColor)  __applyObject(defaults.fgColor,    custom.fgColor);
+		ConsoleColor bgColor    = (ConsoleColor)  __applyObject(defaults.bgColor,    custom.bgColor);
 		
 		return new CellProperties(wrapLength, alignment, fgColor, bgColor);
-		
 	}
-
+	// =========================================================================
+	
+	// INSTANCE SCOPE ==========================================================
 	private final Integer       wrapLength;
 	private final CellAlignment alignment;
 	private final ConsoleColor  fgColor;
 	private final ConsoleColor  bgColor;
 
-	public CellProperties() {
+	CellProperties() {
 		this(null, null, null, null);
 	}
 	
-	public CellProperties(Integer wrapLength, CellAlignment alignment, ConsoleColor fgColor, ConsoleColor bgColor) {
+	CellProperties(Integer wrapLength, CellAlignment alignment, ConsoleColor fgColor, ConsoleColor bgColor) {
 		if (wrapLength != null && wrapLength < 1)
 			throw new IllegalArgumentException(String.format("Invalid wrap length: %d", wrapLength));
 
@@ -75,7 +76,7 @@ public class CellProperties {
 		return bgColor;
 	}
 
-	boolean isFulfilled() {
+	boolean _isFulfilled() {
 		return wrapLength != null && alignment != null && fgColor != null && bgColor != null;
 	}
 	
@@ -83,4 +84,5 @@ public class CellProperties {
 	public String toString() {
 		return String.format("[wrapLength: %d, alignment: %s, fgColor: %s, bgColor: %s]", wrapLength, alignment, fgColor, bgColor);
 	}
+	// =========================================================================
 }

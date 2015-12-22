@@ -21,24 +21,24 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TableDefaultsBuilder {
+public class ColumnDefaultsBuilder {
 	private final List<CellProperties> cellPropList = new LinkedList<>();
 
-	public TableDefaultsBuilder addColumn(int wrapLength, CellAlignment alignment, ConsoleColor fgColor, ConsoleColor bgColor) {
+	public ColumnDefaultsBuilder addColumn(int wrapLength, CellAlignment alignment, ConsoleColor fgColor, ConsoleColor bgColor) {
 		cellPropList.add(new CellProperties(wrapLength, alignment, fgColor, bgColor));
 		return this;
 	}
 	
-	public TableDefaultsBuilder addColumn(int wrapLength) {
+	public ColumnDefaultsBuilder addColumn(int wrapLength) {
 		return addColumn(wrapLength, CellAlignment.LEFT, ConsoleColor.DEFAULT, ConsoleColor.DEFAULT);
 	}
 	
-	public TableDefaultsBuilder addColumn(int wrapLength, ConsoleColor fgColor) {
+	public ColumnDefaultsBuilder addColumn(int wrapLength, ConsoleColor fgColor) {
 		return addColumn(wrapLength, CellAlignment.LEFT, fgColor, ConsoleColor.DEFAULT);
 	}
 
-	public TableDefaults getTableDefaults() {
-		return new TableDefaults() {
+	public ColumnDefaults getTableDefaults() {
+		return new ColumnDefaults() {
 
 			@Override
 			public List<CellProperties> getColumnDefinitions() {

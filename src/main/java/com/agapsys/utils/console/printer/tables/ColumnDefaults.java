@@ -21,6 +21,6 @@ import java.util.List;
  *
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
-public interface TableDefaults {
+public interface ColumnDefaults {
 	public List<CellProperties> getColumnDefinitions();
 }

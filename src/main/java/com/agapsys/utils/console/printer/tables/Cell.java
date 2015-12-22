@@ -17,30 +17,33 @@
 package com.agapsys.utils.console.printer.tables;
 
 import com.agapsys.utils.console.printer.ConsolePrinter;
+import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 
-public class Cell {
+class Cell {
 	private final CellProperties cellProperties;
 	private final String         value;
 	
 	private String wrappedString = null;
 
-	public Cell(CellProperties cellProps, String value, Object...args) {
-		if (cellProps == null)
+	
+	public Cell(CellProperties props, String value, Object...valueArgs) {
+		if (props == null)
 			throw new IllegalArgumentException("Cell properties cannot be null");
 		
-		this.cellProperties = cellProps;
+		this.cellProperties = props;
 
 		if (value == null)
 			throw new IllegalArgumentException("Value cannot be null");
 
-		if (args.length > 0)
-			value = String.format(value, args);
+		if (valueArgs.length > 0)
+			value = String.format(value, valueArgs);
 
 		this.value = value;
 	}
 
+	
 	public CellProperties getCellProperties() {
 		return cellProperties;
 	}
@@ -49,7 +52,7 @@ public class Cell {
 		return value;
 	}
 
-	private String getWrappedString() {
+	public String getWrappedValue() {
 		if (wrappedString == null)
 			wrappedString = WordUtils.wrap(value, cellProperties.getWrapLength(), "\n", true);
 		
@@ -57,29 +60,36 @@ public class Cell {
 	}
 	
 	public int getLineCount() {
-		return StringUtils.countMatches(getWrappedString(), "\n") + 1;
+		return StringUtils.countMatches(getWrappedValue(), "\n") + 1;
 	}
 	
 	public String getDisplayString() {
-		String displayString = getWrappedString();
+		String[] displayStringArray = getWrappedValue().split(Pattern.quote("\n"));
+		StringBuilder sb = new StringBuilder();
+		
+		for (int i = 0; i < displayStringArray.length; i++) {
+			int delta = cellProperties.getWrapLength() - displayStringArray[i].length();
 
-		int delta = cellProperties.getWrapLength() - displayString.length();
+			String padding;
+			if (delta > 0) {
+				padding = StringUtils.repeat(" ", delta);
+			} else {
+				padding = "";
+			}
 
-		String padding;
-		if (delta > 0) {
-			padding = StringUtils.repeat(" ", delta);
-		} else {
-			padding = "";
+			if (cellProperties.getCellAlignment() == CellAlignment.LEFT) {
+				displayStringArray[i] = displayStringArray[i] + padding;
+			} else {
+				displayStringArray[i] = padding + displayStringArray[i];
+			}
+
+			displayStringArray[i] = ConsolePrinter.getColorString(cellProperties.getFgColor(), cellProperties.getBgColor(), displayStringArray[i]);
+			sb.append(displayStringArray[i]);
+			if (i < displayStringArray.length - 1)
+				sb.append("\n");
 		}
-
-		if (cellProperties.getCellAlignment() == CellAlignment.LEFT) {
-			displayString = displayString + padding;
-		} else {
-			displayString = padding + displayString;
-		}
-
-		displayString = ConsolePrinter.getColorString(cellProperties.getFgColor(), cellProperties.getBgColor(), displayString);
-		return displayString;
+		
+		return sb.toString();
 	}
 	
 	@Override

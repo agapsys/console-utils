@@ -26,9 +26,9 @@ public class TableBuilder {
 	
 	private final List<String> rows = new LinkedList<>();
 	
-	private TableDefaults tableDefaults = null;
+	private ColumnDefaults tableDefaults = null;
 	
-	public TableBuilder setDefaults(TableDefaults defaults) {
+	public TableBuilder setDefaults(ColumnDefaults defaults) {
 		if (this.tableDefaults != null)
 			throw new IllegalStateException("Defaults already set");
 		
@@ -39,7 +39,7 @@ public class TableBuilder {
 		return this;
 	}
 	
-	public TableDefaults getDefaults() {
+	public ColumnDefaults getDefaults() {
 		return tableDefaults;
 	}
 	

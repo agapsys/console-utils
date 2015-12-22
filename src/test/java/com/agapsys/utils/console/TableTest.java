@@ -20,17 +20,16 @@ import com.agapsys.utils.console.printer.ConsoleColor;
 import com.agapsys.utils.console.printer.ConsolePrinter;
 import com.agapsys.utils.console.printer.tables.CellProperties;
 import com.agapsys.utils.console.printer.tables.CellPropertiesBuilder;
-import com.agapsys.utils.console.printer.tables.LinkedRowBuilder;
+import com.agapsys.utils.console.printer.tables.RowBuilder;
 import com.agapsys.utils.console.printer.tables.TableBuilder;
-import com.agapsys.utils.console.printer.tables.TableDefaultsBuilder;
+import com.agapsys.utils.console.printer.tables.ColumnDefaultsBuilder;
 
 public class TableTest {
 	// CLASS SCOPE =============================================================
 	private static void printTable() {
 		TableBuilder tb = new TableBuilder();
 		
-		tb.setDefaults(
-			new TableDefaultsBuilder()
+		tb.setDefaults(new ColumnDefaultsBuilder()
 				.addColumn(2)
 				.addColumn(1)
 				.addColumn(11)
@@ -41,52 +40,58 @@ public class TableTest {
 				.getTableDefaults()
 		);
 		
-		CellProperties cellProps = new CellPropertiesBuilder().setFgColor(ConsoleColor.GREEN).build();
-		LinkedRowBuilder rowBorderBuilder = new LinkedRowBuilder(tb)
-			.addCell(cellProps, "--")
-			.addCell(cellProps, "+")
-			.addCell(cellProps, "-----------")
-			.addCell(cellProps, "+")
-			.addCell(cellProps, "------------------------------")
-			.addCell(cellProps, "+")
-			.addCell(cellProps, "--");
+		RowBuilder rowBorderBuilder = new RowBuilder(tb)
+			.addCell()
+			.addCell()
+			.addCell()
+			.addCell()
+			.addCell()
+			.addCell()
+			.addCell();
 		
 		
-		cellProps = new CellPropertiesBuilder().setFgColor(ConsoleColor.CYAN).build();
+		CellProperties cellProps = new CellPropertiesBuilder().setFgColor(ConsoleColor.CYAN).build();
 		tb.addRow(
-			new LinkedRowBuilder(tb)
+			new RowBuilder(tb)
 				.addCell(cellProps, "ID")
 				.addCell()
 				.addCell(cellProps, "DATE")
 				.addCell()
 				.addCell(cellProps, "NAME")
 				.addCell()
-				.addCell(cellProps, "G").toString()
+				.addCell(cellProps, "G")
+				.getRowString()
 		);
-		tb.addRow(rowBorderBuilder.toString());
-//		tb.addRow(
-//			new LinkedRowBuilder(tb)
-//				.addCell("1")
-//				.addCell()
-//				.addCell("abcd-ef-gh ")
-//				.addCell()
-//				.addCell("aaaaa bbbbbb cccccc dd eeeeeeee f gggg hhhh i jjjjj kk lll mm nnnn")
-//				.addCell()
-//				.addCell(new CellPropertiesBuilder().setFgColor(ConsoleColor.YELLOW).build(), "f")
-//				.toString()
-//		);
+		tb.addRow(rowBorderBuilder.getRowString());
+		tb.addRow(
+			new RowBuilder(tb)
+				.addCell("1")
+				.addCell()
+				.addCell("abcd-ef-gh ")
+				.addCell()
+				.addCell("aaaaa bbbbbb cccccc dd eeeeeeee f gggg hhhh i jjjjj kk lll mm nnnn")
+				.addCell()
+				.addCell(new CellPropertiesBuilder().setFgColor(ConsoleColor.YELLOW).build(), "f")
+				.getRowString()
+		);
+		tb.addRow(rowBorderBuilder.getRowString());
+		tb.addRow(
+			new RowBuilder(tb)
+			.addCell("2")
+			.addCell()
+			.addCell("ijkl-mn-op ")
+			.addCell()
+			.addCell("ooooooo pppp qqqqqq rr ssssssss")
+			.addCell()
+				.addCell(new CellPropertiesBuilder().setFgColor(ConsoleColor.YELLOW).build(), "m")
+			.getRowString()
+		);
 		
 		/*
 		.addRowBuilder()
 		.end()
 		.addRowBuilder()
-			.cell("2")
-			.cell()
-			.cell("ijkl-mn-op ")
-			.cell()
-			.cell("ooooooo pppp qqqqqq rr ssssssss")
-			.cell()
-			.cell(ConsoleColor.YELLOW, " m")
+			
 		.end()
 		.addRowBuilder()
 			.cell("3")

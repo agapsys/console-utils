@@ -22,17 +22,62 @@ import java.util.regex.Pattern;
 
 public class RowBuilder {
 	private final List<Cell> cells = new LinkedList<>();
+	private final TableBuilder tableBuilder;
+
+	public RowBuilder() {
+		tableBuilder = null;
+	}
+	
+	public RowBuilder(TableBuilder tableBuilder) {
+		if (tableBuilder == null)
+			throw new IllegalArgumentException("Table builder cannot be null");
+		
+		this.tableBuilder = tableBuilder;
+	}
+	
+	private CellProperties __getDefaultCellProps(int index) {
+		String errMsg = "There is no default properties for column index " + index;
+		
+		if (tableBuilder == null)
+			throw new IllegalStateException(errMsg);
+		
+		ColumnDefaults defaults = tableBuilder.getDefaults();
+		
+		if (defaults == null || defaults.getColumnDefinitions().size() < (index + 1))
+			throw new IllegalStateException(errMsg);
+		
+		return defaults.getColumnDefinitions().get(index);
+	}
+	
+	private CellProperties getNextDefaultCellProps() {
+		int i = __getCells().size();
+		return __getDefaultCellProps(i);
+	}
 	
 	public RowBuilder addCell(CellProperties cellProps, String value, Object...args) {
-		if (!cellProps.isFulfilled())
-			throw new IllegalArgumentException("cellProps must be fulfilled");
+		if (tableBuilder == null) {
+			if (!cellProps._isFulfilled())
+				throw new IllegalArgumentException("cellProps must be fulfilled");
+		} else {
+			cellProps = CellProperties._apply(getNextDefaultCellProps(), cellProps);
+		}
 		
 		Cell cell = new Cell(cellProps, value, args);
 		cells.add(cell);
 		return this;
 	}
 	
-	private String getRowString() {
+	public RowBuilder addCell(String value, Object...args) {		
+		CellProperties cellProperties = getNextDefaultCellProps();
+		addCell(cellProperties, value, args);
+		return this;
+	}
+		
+	public RowBuilder addCell() {
+		return addCell("");
+	}
+	
+	public String getRowString() {
 		if (cells.isEmpty())
 			return "";
 				
@@ -48,10 +93,10 @@ public class RowBuilder {
 		for (int j = 0; j < cells.size(); j++) {
 			Cell cell = cells.get(j);
 			
-			String[] cellLines = cell.getDisplayString().split(Pattern.quote("\n"));
+			String[] cellLines = cell.getWrappedValue().split(Pattern.quote("\n"));
 
 			for (int i = 0; i < cellLines.length; i++) {
-				cellArray[i][j] = new Cell(cell.getCellProperties(), cell.getValue());
+				cellArray[i][j] = new Cell(cell.getCellProperties(), cellLines[i]);
 			}
 		}
 		
@@ -62,6 +107,8 @@ public class RowBuilder {
 			
 			for (int j = 0; j < cells.size(); j++) {
 				Cell cell = cellArray[i][j];
+				if (cell == null)
+					cell = new Cell(__getDefaultCellProps(j), "");
 				
 				sbLine.append(cell.getDisplayString());
 			}
@@ -75,13 +122,29 @@ public class RowBuilder {
 		return sb.toString();		
 	}
 	
-	protected List<Cell> getCells() {
+	List<Cell> __getCells() {
 		return cells;
 	}
 	
 	@Override
 	public String toString() {
-		return getRowString();
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		
+		boolean firstCell = true;
+		for (Cell cell : cells) {
+			
+			if (!firstCell) {
+				sb.append(", ");
+			} else {
+				firstCell = false;
+			}
+			
+			sb.append("\"").append(cell.toString()).append("\"");
+		}
+		
+		sb.append("]");
+		return sb.toString();
 	}
 	// =========================================================================
 }
