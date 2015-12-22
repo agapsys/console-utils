@@ -1,5 +1,3 @@
-package com.agapsys.utils.console;
-
 /*
  * Copyright 2015 Agapsys Tecnologia Ltda-ME.
  *
@@ -15,6 +13,8 @@ package com.agapsys.utils.console;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.agapsys.utils.console.printer.tables;
 
 import com.agapsys.utils.console.printer.ConsolePrinter;
 import java.io.ByteArrayOutputStream;

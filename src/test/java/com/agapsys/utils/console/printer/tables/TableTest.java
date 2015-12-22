@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package com.agapsys.utils.console;
+package com.agapsys.utils.console.printer.tables;
 
 import com.agapsys.utils.console.printer.ConsoleColor;
 import com.agapsys.utils.console.printer.ConsolePrinter;
-import com.agapsys.utils.console.printer.tables.CellAlignment;
-import com.agapsys.utils.console.printer.tables.RowBuilder;
-import com.agapsys.utils.console.printer.tables.TableBuilder;
 import org.apache.commons.lang.StringUtils;
 
 public class TableTest {
@@ -99,6 +96,5 @@ public class TableTest {
 	// =========================================================================
 
 	// INSTANCE SCOPE ==========================================================
-
 	// =========================================================================
 }

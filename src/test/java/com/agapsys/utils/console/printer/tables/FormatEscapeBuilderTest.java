@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.agapsys.utils.console;
 
+package com.agapsys.utils.console.printer.tables;
+
+import com.agapsys.utils.console.printer.ConsoleColor;
 import com.agapsys.utils.console.printer.ConsoleFormat;
 import com.agapsys.utils.console.printer.FormatEscapeBuilder;
-import com.agapsys.utils.console.printer.ConsoleColor;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class FormatEscapeBuilderTest {
 	@Test
