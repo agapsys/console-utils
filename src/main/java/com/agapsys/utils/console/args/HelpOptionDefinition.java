@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
-public class HelpOption implements OptionDefinition {
+public class HelpOptionDefinition extends OptionDefinition {
 	// CLASS SCOPE =============================================================
 	private static final String DEFAULT_SHORT_NAME         = "h";
 	private static final String DEFAULT_LONG_NAME          = "help";
@@ -42,11 +42,6 @@ public class HelpOption implements OptionDefinition {
 	public String getLongName() {
 		return DEFAULT_LONG_NAME;
 	}
-
-	@Override
-	public boolean isUnique() {
-		return true;
-	}
 	
 	
 	private String __getOptionShortName(OptionDefinition optionDefinition) {
@@ -64,17 +59,17 @@ public class HelpOption implements OptionDefinition {
 	}
 	
 	private String __getOptionName(OptionDefinition optionDefinition) {
-		String shortNameDescription = __getOptionShortName(optionDefinition);
-		String longNameDescription  = __getOptionLongName(optionDefinition);
+		String shortName = __getOptionShortName(optionDefinition);
+		String longName  = __getOptionLongName(optionDefinition);
 		
 		String nameDescription;
 		
-		if (!shortNameDescription.isEmpty() && !longNameDescription.isEmpty()) {
-			nameDescription = String.format("%s, %s", shortNameDescription, longNameDescription);
-		} else if (!shortNameDescription.isEmpty()) {
-			nameDescription = shortNameDescription;
+		if (!shortName.isEmpty() && !longName.isEmpty()) {
+			nameDescription = String.format("%s, %s", shortName, longName);
+		} else if (!shortName.isEmpty()) {
+			nameDescription = shortName;
 		} else {
-			nameDescription = longNameDescription;
+			nameDescription = longName;
 		}
 		
 		String paramDescription = optionDefinition.getParamDescription();
@@ -113,33 +108,33 @@ public class HelpOption implements OptionDefinition {
 		
 		for (int i = 0; i < firstColList.size(); i++) {
 			OptionDefinition optionDefinition = parser.getOptionDefinitions().get(i);
-			String shortDescription = optionDefinition.getShortDescription();
+			String description = optionDefinition.getDescription();
 			
-			if (shortDescription == null || shortDescription.trim().isEmpty())
-				throw new RuntimeException(String.format("Option '%s' does not have a short description", __getOptionName(optionDefinition)));
+			if (description == null || description.trim().isEmpty())
+				throw new RuntimeException(String.format("Option '%s' does not have a description", __getOptionName(optionDefinition)));
 			
 			tb.addRow()
 				.addCell(firstColList.get(i))
 				.addCell()
-				.addCell(shortDescription)
+				.addCell(description)
 			.endRow();
 		}
 		
 		return tb.toString();
 	}
 	
-	protected String getDetailHelpString(OptionParser parser, OptionDefinition optionDefinition) {
+	protected String getDetailedHelpString(OptionParser parser, OptionDefinition optionDefinition) {
 		final int IDENT_WIDTH = 4;
 		
 		String firstLine = __getOptionName(optionDefinition);
-		StringBuilder sb = new StringBuilder(firstLine).append("\n\n");
+		StringBuilder sb = new StringBuilder(firstLine).append("\n");
 		
-		String longDescription = optionDefinition.getLongDescription();
-		if (longDescription == null || longDescription.trim().isEmpty())
-				throw new RuntimeException(String.format("Option '%s' does not have a long description", __getOptionName(optionDefinition)));
+		String detailedDescription = optionDefinition.getDetailedDescription();
+		if (detailedDescription == null || detailedDescription.trim().isEmpty())
+			detailedDescription = optionDefinition.getDescription();
 		
-		longDescription = new TableBuilder().addCol(IDENT_WIDTH).addCol(DEFAULT_TABLE_WIDTH - IDENT_WIDTH).addRow().addCell().addCell(longDescription).endRow().toString();
-		sb.append(longDescription);
+		detailedDescription = new TableBuilder().addCol(IDENT_WIDTH).addCol(DEFAULT_TABLE_WIDTH - IDENT_WIDTH).addRow().addCell().addCell(detailedDescription).endRow().toString();
+		sb.append(detailedDescription);
 		return sb.toString();
 	}
 	
@@ -150,17 +145,17 @@ public class HelpOption implements OptionDefinition {
 		if (params.isEmpty())
 			return getGlobalHelpString(parser);
 		
-		return getDetailHelpString(parser, parser.getOptionDefinition(params.get(0)));
+		return getDetailedHelpString(parser, parser.getOptionDefinition(params.get(0)));
 	}
-
+	
 	
 	@Override
-	public String getShortDescription() {
-		return DEFAULT_DESCRIPTION;
+	public void exec(OptionParser parser, List<String> params) throws ParsingException {
+		System.out.println(getHelpString(parser, params));
 	}
-
+	
 	@Override
-	public String getLongDescription() {
+	public String getDescription() {
 		return DEFAULT_DESCRIPTION;
 	}
 	
@@ -168,6 +163,7 @@ public class HelpOption implements OptionDefinition {
 	public String getParamDescription() {
 		return DEFAULT_PARAMS_DESCRIPTION;
 	}
+	
+	
 	// =========================================================================
-
 }

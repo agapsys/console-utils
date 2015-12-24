@@ -16,30 +16,34 @@
 
 package com.agapsys.utils.console.args;
 
-import java.util.LinkedList;
+import com.agapsys.utils.console.printer.ConsoleColor;
+import com.agapsys.utils.console.printer.ConsolePrinter;
 import java.util.List;
 
-/**
- * @author Leandro Oliveira (leandro@agapsys.com)
- */
-public abstract class OptionParser {
+public class CustomHelpOptionDefinition extends HelpOptionDefinition {
+
+
 	// CLASS SCOPE =============================================================
-	public static List<Option> getOptionsByClass(List<Option> parsedOptions, Class<? extends OptionDefinition> optionDefinitionClass) {
-		List<Option> filteredOptions = new LinkedList<>();
-		for (Option option : parsedOptions) {
-			if (option.getDefinition().getClass() == optionDefinitionClass) {
-				filteredOptions.add(option);
-			}
-		}
-		return filteredOptions;
-	}
+	private static final String APP_NAME = "Test application\nv.0.1.0";
 	// =========================================================================
 
 	// INSTANCE SCOPE ==========================================================
-	public abstract List<Option> getOptions(String[] args) throws ParsingException;
-
-	public abstract List<OptionDefinition> getOptionDefinitions();
-
-	public abstract OptionDefinition getOptionDefinition(String name);
+	@Override
+	protected String getGlobalHelpString(OptionParser parser) {
+		return String.format("%s\n\nUsage:\n\n%s", APP_NAME, super.getGlobalHelpString(parser));
+	}
+	
+	@Override
+	protected String getDetailedHelpString(OptionParser parser, OptionDefinition optionDefinition) {
+		return String.format("%s\n\n%s", APP_NAME, super.getDetailedHelpString(parser, optionDefinition));
+	}
+	
+	@Override
+	public void exec(OptionParser parser, List<String> params) throws ParsingException {
+		super.exec(parser, params);
+		ConsolePrinter.println(ConsoleColor.YELLOW, "Custom execution!");
+	}
 	// =========================================================================
+
+	
 }

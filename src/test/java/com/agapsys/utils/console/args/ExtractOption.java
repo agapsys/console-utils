@@ -19,7 +19,7 @@ package com.agapsys.utils.console.args;
 /**
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
-public class ExtractOption implements OptionDefinition {
+public class ExtractOption extends OptionDefinition {
 
 	@Override
 	public String getShortName() {
@@ -32,18 +32,8 @@ public class ExtractOption implements OptionDefinition {
 	}
 
 	@Override
-	public boolean isUnique() {
-		return true;
-	}
-
-	@Override
-	public String getShortDescription() {
-		return null;
-	}
-
-	@Override
-	public String getLongDescription() {
-		return null;
+	public String getDescription() {
+		return "Extract option description";
 	}
 
 	@Override

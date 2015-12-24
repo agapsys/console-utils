@@ -16,20 +16,28 @@
 
 package com.agapsys.utils.console.args;
 
+import java.util.List;
+
 /**
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
-public interface OptionDefinition {
+public abstract class OptionDefinition {
 	
-	public String getShortName();
+	public abstract String getShortName();
 
-	public String getLongName();
+	public abstract String getLongName();
 
-	public boolean isUnique();
+	public boolean isUnique() {
+		return true;
+	}
 
-	public String getParamDescription();
+	public abstract String getParamDescription();
 	
-	public String getShortDescription();
+	public abstract String getDescription();
 
-	public String getLongDescription();
+	public String getDetailedDescription() {
+		return null;
+	}
+	
+	public void exec(OptionParser parser, List<String> params) throws ParsingException {}
 }

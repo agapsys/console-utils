@@ -21,8 +21,41 @@ import java.util.List;
 /**
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
-public interface Option {
-	public OptionDefinition getOptionDefinition();
+public class Option {
+	private final OptionDefinition definition;
+	private final OptionParser parser;
+	private final List<String> params;
+	
+	public Option(OptionParser parser, OptionDefinition definition, List<String> params) {
+		if (definition == null)
+			throw new IllegalArgumentException("Definition cannot be null");
+		
+		this.definition = definition;
+		
+		if (parser == null)
+			throw new IllegalArgumentException("Parser cannot be null");
+		
+		this.parser = parser;
+		
+		if (params == null)
+			throw new IllegalArgumentException("Params cannot be null");
+		
+		this.params = params;
+	}
+	
+	public OptionParser getParser() {
+		return parser;
+	}
+	
+	public OptionDefinition getDefinition() {
+		return definition;
+	}
 
-	public List<String> getParams();
+	public List<String> getParams() {
+		return params;
+	}
+	
+	public void exec() throws ParsingException {
+		definition.exec(parser, params);
+	}
 }

@@ -16,6 +16,8 @@
 
 package com.agapsys.utils.console.args;
 
+import com.agapsys.utils.console.printer.ConsoleColor;
+import com.agapsys.utils.console.printer.ConsolePrinter;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,7 +39,7 @@ public class OptionParserTest {
 		parser = new OptionParserBuilder()
 			.addOptionDefinition(CopyOption.class)
 			.addOptionDefinition(ExtractOption.class)
-			.addOptionDefinition(HelpOption.class)
+			.addOptionDefinition(CustomHelpOptionDefinition.class)
 			.build();
 	}
 	
@@ -64,18 +66,18 @@ public class OptionParserTest {
 		Assert.assertEquals(3, options.size());
 		
 		option = options.get(0);
-		Assert.assertTrue(option.getOptionDefinition() instanceof CopyOption);
+		Assert.assertTrue(option.getDefinition() instanceof CopyOption);
 		Assert.assertEquals(2, option.getParams().size());
 		Assert.assertEquals("/tmp/file1", option.getParams().get(0));
 		Assert.assertEquals("/tmp/file2", option.getParams().get(1));
 		
 		option = options.get(1);
-		Assert.assertTrue(option.getOptionDefinition() instanceof CopyOption);
+		Assert.assertTrue(option.getDefinition() instanceof CopyOption);
 		Assert.assertEquals(1, option.getParams().size());
 		Assert.assertEquals("/tmp/file3", option.getParams().get(0));
 		
 		option = options.get(2);
-		Assert.assertTrue(option.getOptionDefinition() instanceof ExtractOption);
+		Assert.assertTrue(option.getDefinition() instanceof ExtractOption);
 		Assert.assertEquals(4, option.getParams().size());
 		Assert.assertEquals("/tmp/filex1", option.getParams().get(0));
 		Assert.assertEquals("/tmp/filex2", option.getParams().get(1));
@@ -99,18 +101,18 @@ public class OptionParserTest {
 		Assert.assertEquals(3, options.size());
 		
 		option = options.get(0);
-		Assert.assertTrue(option.getOptionDefinition() instanceof CopyOption);
+		Assert.assertTrue(option.getDefinition() instanceof CopyOption);
 		Assert.assertEquals(2, option.getParams().size());
 		Assert.assertEquals("/tmp/file1", option.getParams().get(0));
 		Assert.assertEquals("/tmp/file2", option.getParams().get(1));
 		
 		option = options.get(1);
-		Assert.assertTrue(option.getOptionDefinition() instanceof CopyOption);
+		Assert.assertTrue(option.getDefinition() instanceof CopyOption);
 		Assert.assertEquals(1, option.getParams().size());
 		Assert.assertEquals("/tmp/file3", option.getParams().get(0));
 		
 		option = options.get(2);
-		Assert.assertTrue(option.getOptionDefinition() instanceof ExtractOption);
+		Assert.assertTrue(option.getDefinition() instanceof ExtractOption);
 		Assert.assertEquals(4, option.getParams().size());
 		Assert.assertEquals("/tmp/filex1", option.getParams().get(0));
 		Assert.assertEquals("/tmp/filex2", option.getParams().get(1));
@@ -251,11 +253,11 @@ public class OptionParserTest {
 		Assert.assertEquals(2, options.size());
 		
 		option = options.get(0);
-		Assert.assertTrue(option.getOptionDefinition() instanceof CopyOption);
+		Assert.assertTrue(option.getDefinition() instanceof CopyOption);
 		Assert.assertEquals(0, option.getParams().size());
 		
 		option = options.get(1);
-		Assert.assertTrue(option.getOptionDefinition() instanceof ExtractOption);
+		Assert.assertTrue(option.getDefinition() instanceof ExtractOption);
 		Assert.assertEquals(4, option.getParams().size());
 		Assert.assertEquals("/tmp/filex1", option.getParams().get(0));
 		Assert.assertEquals("/tmp/filex2", option.getParams().get(1));
@@ -280,5 +282,102 @@ public class OptionParserTest {
 			
 		Assert.assertNotNull(err);
 		Assert.assertEquals("Invalid short option sequence: -ccx", err.getMessage());
+	}
+	
+	@Test
+	public void testHelpOption() throws ParsingException {		
+		String cmd;
+		List<Option> options;
+		Option helpOption;
+		
+		// ---------------------------------------------------------------------
+		cmd = "--help";
+		ConsolePrinter.println(ConsoleColor.MAGENTA, cmd);
+		options = parser.getOptions(__getArgs(cmd));
+		helpOption = OptionParser.getOptionsByClass(options, CustomHelpOptionDefinition.class).get(0);
+		Assert.assertEquals(0, helpOption.getParams().size());
+		helpOption.exec();
+		// ---------------------------------------------------------------------
+		
+		// ---------------------------------------------------------------------
+		cmd = "-h";
+		ConsolePrinter.println(ConsoleColor.MAGENTA, cmd);
+		options = parser.getOptions(__getArgs(cmd));
+		helpOption = OptionParser.getOptionsByClass(options, CustomHelpOptionDefinition.class).get(0);
+		Assert.assertEquals(0, helpOption.getParams().size());
+		helpOption.exec();
+		// ---------------------------------------------------------------------
+		
+		// ---------------------------------------------------------------------
+		cmd = "--help c";
+		ConsolePrinter.println(ConsoleColor.MAGENTA, cmd);
+		options = parser.getOptions(__getArgs(cmd));
+		helpOption = OptionParser.getOptionsByClass(options, CustomHelpOptionDefinition.class).get(0);
+		Assert.assertEquals(1, helpOption.getParams().size());
+		helpOption.exec();
+		// ---------------------------------------------------------------------
+		
+		// ---------------------------------------------------------------------
+		cmd = "--help copy";
+		ConsolePrinter.println(ConsoleColor.MAGENTA, cmd);
+		options = parser.getOptions(__getArgs(cmd));
+		helpOption = OptionParser.getOptionsByClass(options, CustomHelpOptionDefinition.class).get(0);
+		Assert.assertEquals(1, helpOption.getParams().size());
+		helpOption.exec();
+		// ---------------------------------------------------------------------
+		
+		// ---------------------------------------------------------------------
+		cmd = "-h c";
+		ConsolePrinter.println(ConsoleColor.MAGENTA, cmd);
+		options = parser.getOptions(__getArgs(cmd));
+		helpOption = OptionParser.getOptionsByClass(options, CustomHelpOptionDefinition.class).get(0);
+		Assert.assertEquals(1, helpOption.getParams().size());
+		helpOption.exec();
+		// ---------------------------------------------------------------------
+		
+		// ---------------------------------------------------------------------
+		cmd = "-h copy";
+		ConsolePrinter.println(ConsoleColor.MAGENTA, cmd);
+		options = parser.getOptions(__getArgs(cmd));
+		helpOption = OptionParser.getOptionsByClass(options, CustomHelpOptionDefinition.class).get(0);
+		Assert.assertEquals(1, helpOption.getParams().size());
+		helpOption.exec();
+		// ---------------------------------------------------------------------
+		
+		// ---------------------------------------------------------------------
+		cmd = "--help x";
+		ConsolePrinter.println(ConsoleColor.MAGENTA, cmd);
+		options = parser.getOptions(__getArgs(cmd));
+		helpOption = OptionParser.getOptionsByClass(options, CustomHelpOptionDefinition.class).get(0);
+		Assert.assertEquals(1, helpOption.getParams().size());
+		helpOption.exec();
+		// ---------------------------------------------------------------------
+		
+		// ---------------------------------------------------------------------
+		cmd = "--help extract-files";
+		ConsolePrinter.println(ConsoleColor.MAGENTA, cmd);
+		options = parser.getOptions(__getArgs(cmd));
+		helpOption = OptionParser.getOptionsByClass(options, CustomHelpOptionDefinition.class).get(0);
+		Assert.assertEquals(1, helpOption.getParams().size());
+		helpOption.exec();
+		// ---------------------------------------------------------------------
+		
+		// ---------------------------------------------------------------------
+		cmd = "-h x";
+		ConsolePrinter.println(ConsoleColor.MAGENTA, cmd);
+		options = parser.getOptions(__getArgs(cmd));
+		helpOption = OptionParser.getOptionsByClass(options, CustomHelpOptionDefinition.class).get(0);
+		Assert.assertEquals(1, helpOption.getParams().size());
+		helpOption.exec();
+		// ---------------------------------------------------------------------
+		
+		// ---------------------------------------------------------------------
+		cmd = "-h extract-files";
+		ConsolePrinter.println(ConsoleColor.MAGENTA, cmd);
+		options = parser.getOptions(__getArgs(cmd));
+		helpOption = OptionParser.getOptionsByClass(options, CustomHelpOptionDefinition.class).get(0);
+		Assert.assertEquals(1, helpOption.getParams().size());
+		helpOption.exec();
+		// ---------------------------------------------------------------------
 	}
 }

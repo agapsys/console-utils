@@ -19,7 +19,7 @@ package com.agapsys.utils.console.args;
 /**
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
-public class CopyOption implements OptionDefinition {
+public class CopyOption extends OptionDefinition {
 
 	@Override
 	public String getShortName() {
@@ -37,13 +37,13 @@ public class CopyOption implements OptionDefinition {
 	}
 
 	@Override
-	public String getShortDescription() {
-		return null;
+	public String getDescription() {
+		return "Copy option description";
 	}
 
 	@Override
-	public String getLongDescription() {
-		return null;
+	public String getDetailedDescription() {
+		return "Detailed copy option description";
 	}
 
 	@Override

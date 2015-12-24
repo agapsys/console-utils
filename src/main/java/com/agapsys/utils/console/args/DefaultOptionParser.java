@@ -30,26 +30,6 @@ class DefaultOptionParser extends OptionParser {
 	// CLASS SCOPE =============================================================
 	static final String SHORT_OPTION_PREFIX = "-";
 	static final String LONG_OPTION_PREFIX  = "--";
-
-	private static class DefaultOption implements Option {
-		private final OptionDefinition optionDefinition;
-		private final List<String> params;
-
-		public DefaultOption(OptionDefinition optionDefinition, List<String> params) {
-			this.optionDefinition = optionDefinition;
-			this.params = params;
-		}
-
-		@Override
-		public OptionDefinition getOptionDefinition() {
-			return optionDefinition;
-		}
-
-		@Override
-		public List<String> getParams() {
-			return params;
-		}
-	}
 	// =========================================================================
 
 	// INSTANCE SCOPE ==========================================================
@@ -66,7 +46,7 @@ class DefaultOptionParser extends OptionParser {
 		String optionPrefix = optionName.length() == 1 ? SHORT_OPTION_PREFIX : LONG_OPTION_PREFIX;
 
 		for (Option option : options) {
-			if (option.getOptionDefinition() == optionDefinition && optionDefinition.isUnique())
+			if (option.getDefinition() == optionDefinition && optionDefinition.isUnique())
 				throw new ParsingException("Option already set: %s%s", optionPrefix, optionName);
 		}
 	}
@@ -81,7 +61,7 @@ class DefaultOptionParser extends OptionParser {
 		for (String arg : args) {
 			if (arg.startsWith(LONG_OPTION_PREFIX) || arg.startsWith(SHORT_OPTION_PREFIX)) {
 				if (currentOptionDefinition != null) {
-					options.add(new DefaultOption(currentOptionDefinition, currentParamList));
+					options.add(new Option(this, currentOptionDefinition, currentParamList));
 				}
 
 				String optionName;
@@ -115,7 +95,7 @@ class DefaultOptionParser extends OptionParser {
 						__checkDuplicateOption(options, optionName);
 
 						if (i < chars.length - 1)
-							options.add(new DefaultOption(currentOptionDefinition, new LinkedList<String>()));
+							options.add(new Option(this, currentOptionDefinition, new LinkedList<String>()));
 					}
 				}
 
@@ -129,7 +109,7 @@ class DefaultOptionParser extends OptionParser {
 			}
 		}
 
-		options.add(new DefaultOption(currentOptionDefinition, currentParamList));
+		options.add(new Option(this, currentOptionDefinition, currentParamList));
 
 		return options;
 	}
