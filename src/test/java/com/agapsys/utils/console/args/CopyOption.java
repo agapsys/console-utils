@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import com.agapsys.utils.console.args.OptionDefinition;
+package com.agapsys.utils.console.args;
 
 /**
  * @author Leandro Oliveira (leandro@agapsys.com)

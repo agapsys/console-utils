@@ -17,9 +17,11 @@
 package com.agapsys.utils.console.args;
 
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Leandro Oliveira (leandro@agapsys.com)
@@ -85,6 +87,9 @@ class DefaultOptionParser extends OptionParser {
 				String optionName;
 				if (arg.startsWith(LONG_OPTION_PREFIX)) {
 					optionName = arg.substring(LONG_OPTION_PREFIX.length());
+					if (optionName.length() == 1)
+						throw new ParsingException("Invalid option: %s", arg);
+					
 					currentOptionDefinition = getOptionDefinition(optionName);
 
 					if (currentOptionDefinition == null)
@@ -94,8 +99,14 @@ class DefaultOptionParser extends OptionParser {
 
 				} else {
 					char[] chars = arg.substring(SHORT_OPTION_PREFIX.length()).toCharArray();
+					Set<Character> charSet = new LinkedHashSet<>();
+					
 					for (int i = 0; i < chars.length; i++) {
 						optionName = "" + chars[i];
+						
+						if (!charSet.add(chars[i]))
+							throw new ParsingException("Invalid short option sequence: %s", arg);
+						
 						currentOptionDefinition = getOptionDefinition(optionName);
 
 						if (currentOptionDefinition == null)

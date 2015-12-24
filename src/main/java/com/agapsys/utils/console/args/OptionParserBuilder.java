@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 public class OptionParserBuilder {
 	// CLASS SCOPE =============================================================
 	private static final String SHORT_NAME_PATTERN = "^[a-zA-Z]$";
-	private static final String LONG_NAME_PATTERN = "^[a-zA-Z][a-zA-Z0-9\\-]{2,}$";
+	private static final String LONG_NAME_PATTERN = "^[a-zA-Z][a-zA-Z0-9\\-\\_]{2,}$";
 	// =========================================================================
 
 	// INSTANCE SCOPE ==========================================================

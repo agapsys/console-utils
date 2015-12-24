@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import com.agapsys.utils.console.args.OptionDefinition;
+package com.agapsys.utils.console.args;
 
 /**
  * @author Leandro Oliveira (leandro@agapsys.com)
@@ -48,7 +48,7 @@ public class ExtractOption implements OptionDefinition {
 
 	@Override
 	public String getParamDescription() {
-		return "<file1> [file2] [file3]...";
+		return "<file> [file2] [file3]...";
 	}
 
 }

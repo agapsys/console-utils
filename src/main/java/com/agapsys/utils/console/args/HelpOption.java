@@ -23,10 +23,10 @@ import java.util.List;
 /**
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
-public class HelpOptionDefinition implements OptionDefinition {
+public class HelpOption implements OptionDefinition {
 	// CLASS SCOPE =============================================================
 	private static final String DEFAULT_SHORT_NAME         = "h";
-	private static final String DEFAULT_LONG_NAME          = "--help";
+	private static final String DEFAULT_LONG_NAME          = "help";
 	private static final String DEFAULT_DESCRIPTION        = "Shows usage instructions";
 	private static final String DEFAULT_PARAMS_DESCRIPTION = "[option]";
 	private static final int    DEFAULT_TABLE_WIDTH        = 80;
