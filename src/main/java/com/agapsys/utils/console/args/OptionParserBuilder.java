@@ -43,12 +43,13 @@ public class OptionParserBuilder {
 			throw new RuntimeException(ex);
 		}
 
-		String shortName = optionDefinition.getShortName().toString();
+		String shortName = optionDefinition.getShortName();
 		String longName = optionDefinition.getLongName();
 
 		if (shortName == null && longName == null)
 			throw new IllegalArgumentException("Option definition does not define neither a short name nor a long name");
 
+		
 		if (shortName != null) {
 			if (optionDefinitionMap.containsKey(shortName))
 				throw new IllegalArgumentException(String.format("An option definition with the same short name is already registered: %s", shortName));
@@ -59,6 +60,7 @@ public class OptionParserBuilder {
 			optionDefinitionMap.put(shortName, optionDefinition);
 		}
 
+		
 		if (longName != null) {
 			if (optionDefinitionMap.containsKey(longName))
 				throw new IllegalArgumentException(String.format("An option definition with the same long name is already registered: %s", longName));

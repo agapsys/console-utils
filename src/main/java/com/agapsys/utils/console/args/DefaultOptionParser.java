@@ -58,8 +58,8 @@ class DefaultOptionParser extends OptionParser {
 		this.optionDefinitionMap = optionDefinitionMap;
 	}
 
-	private void checkDuplicateOption(List<Option> options, String optionName) throws ParsingException {
-		OptionDefinition optionDefinition = _getOptionDefinition(optionName);
+	private void __checkDuplicateOption(List<Option> options, String optionName) throws ParsingException {
+		OptionDefinition optionDefinition = getOptionDefinition(optionName);
 
 		String optionPrefix = optionName.length() == 1 ? SHORT_OPTION_PREFIX : LONG_OPTION_PREFIX;
 
@@ -76,9 +76,7 @@ class DefaultOptionParser extends OptionParser {
 
 		List<Option> options = new LinkedList<>();
 
-		for (int i = 0; i < args.length; i++) {
-			String arg = args[i];
-
+		for (String arg : args) {
 			if (arg.startsWith(LONG_OPTION_PREFIX) || arg.startsWith(SHORT_OPTION_PREFIX)) {
 				if (currentOptionDefinition != null) {
 					options.add(new DefaultOption(currentOptionDefinition, currentParamList));
@@ -92,20 +90,20 @@ class DefaultOptionParser extends OptionParser {
 					if (currentOptionDefinition == null)
 						throw new ParsingException("Unknown option: %s%s", LONG_OPTION_PREFIX, optionName);
 
-					checkDuplicateOption(options, optionName);
+					__checkDuplicateOption(options, optionName);
 
 				} else {
 					char[] chars = arg.substring(SHORT_OPTION_PREFIX.length()).toCharArray();
-					for (int j = 0; j < chars.length; j++) {
-						optionName = "" + chars[j];
-						currentOptionDefinition = _getOptionDefinition(optionName);
+					for (int i = 0; i < chars.length; i++) {
+						optionName = "" + chars[i];
+						currentOptionDefinition = getOptionDefinition(optionName);
 
 						if (currentOptionDefinition == null)
-							throw new ParsingException("Unknown option: %s%s", SHORT_OPTION_PREFIX, chars[j]);
+							throw new ParsingException("Unknown option: %s%s", SHORT_OPTION_PREFIX, chars[i]);
 
-						checkDuplicateOption(options, optionName);
+						__checkDuplicateOption(options, optionName);
 
-						if (j < chars.length - 1)
+						if (i < chars.length - 1)
 							options.add(new DefaultOption(currentOptionDefinition, new LinkedList<String>()));
 					}
 				}
@@ -140,25 +138,12 @@ class DefaultOptionParser extends OptionParser {
 		return optionDefinitions;
 	}
 
-	private OptionDefinition _getOptionDefinition(String name) {
+	@Override
+	public OptionDefinition getOptionDefinition(String name) {
 		if (name == null)
 			throw new IllegalArgumentException("name cannot be null");
 
 		return optionDefinitionMap.get(name);
-	}
-
-	@Override
-	public OptionDefinition getOptionDefinition(char shortName) {
-
-		return _getOptionDefinition("" + shortName);
-	}
-
-	@Override
-	public OptionDefinition getOptionDefinition(String longName) {
-		if (longName.length() < 2)
-			throw new IllegalArgumentException("Invalid name for long option: " + longName);
-
-		return _getOptionDefinition(longName);
 	}
 	// =========================================================================
 }

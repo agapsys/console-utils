@@ -19,7 +19,7 @@ package com.agapsys.utils.console.printer;
 import java.util.regex.Pattern;
 
 /**
- * Builds escape sequences for formatted console output
+ * Builds toString sequences for formatted console output
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
 public class FormatEscapeBuilder {
@@ -134,12 +134,15 @@ public class FormatEscapeBuilder {
 	}
 	
 	
-	public String escape(String msg) {
+	public String toString(String msg, Object...msgArgs) {
 		if (msg == null)
 			throw new IllegalArgumentException("message cannot be null");
 		
 		if (msg.isEmpty())
 			return msg;
+		
+		if (msgArgs.length > 0)
+			msg = String.format(msg, msgArgs);
 		
 		String attrCodes = String.format("%s%s%s%s%s%s%s",
 			bgColor != null ? bgColor.getBgCode() + ";" : "",

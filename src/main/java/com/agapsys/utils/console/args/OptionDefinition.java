@@ -20,12 +20,15 @@ package com.agapsys.utils.console.args;
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
 public interface OptionDefinition {
-	public Character getShortName();
+	
+	public String getShortName();
 
 	public String getLongName();
 
 	public boolean isUnique();
 
+	public String getParamDescription();
+	
 	public String getShortDescription();
 
 	public String getLongDescription();

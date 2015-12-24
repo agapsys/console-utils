@@ -22,41 +22,45 @@ package com.agapsys.utils.console.printer;
  */
 public class ConsolePrinter {
 	// CLASS SCOPE =============================================================
-	public static String getColorString(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
-		if (args.length > 0)
-			message = String.format(message, args);
+	public static String toString(String str, Object...strArgs) {
+		if (strArgs.length > 0)
+			str = String.format(str, strArgs);
 		
-		return new FormatEscapeBuilder().setFgColor(fgColor).setBgColor(bgColor).escape(message);
+		return str;
 	}
 	
-	public static String getColorString(ConsoleColor fgColor, String message, Object...args) {
-		return getColorString(fgColor, ConsoleColor.DEFAULT, message, args);
+	public static String toString(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
+		return new FormatEscapeBuilder().setFgColor(fgColor).setBgColor(bgColor).toString(ConsolePrinter.toString(message, args));
+	}
+	
+	public static String toString(ConsoleColor fgColor, String message, Object...args) {
+		return new FormatEscapeBuilder().setFgColor(fgColor).toString(ConsolePrinter.toString(message, args));
 	}
 	
 	
 	public static void print(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
-		System.out.print(getColorString(fgColor, bgColor, message, args));
+		System.out.print(new FormatEscapeBuilder().setFgColor(fgColor).setBgColor(bgColor).toString(ConsolePrinter.toString(message, args)));
 	}
 	
 	public static void print(ConsoleColor fgColor, String message, Object...args) {
-		print(fgColor, ConsoleColor.DEFAULT, message, args);
+		System.out.print(new FormatEscapeBuilder().setFgColor(fgColor).toString(ConsolePrinter.toString(message, args)));
 	}
 	
 	public static void print(String message, Object...args) {
-		print(ConsoleColor.DEFAULT, message, args);
+		System.out.print(ConsolePrinter.toString(message, args));
 	}
 	
 	
 	public static void println(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
-		System.out.println(getColorString(fgColor, bgColor, message, args));
+		System.out.println(new FormatEscapeBuilder().setFgColor(fgColor).setBgColor(bgColor).toString(toString(message, args)));
 	}
 	
 	public static void println(ConsoleColor fgColor, String message, Object...args) {
-		println(fgColor, ConsoleColor.DEFAULT, message, args);
+		System.out.println(new FormatEscapeBuilder().setFgColor(fgColor).toString(toString(message, args)));
 	}
 	
 	public static void println(String message, Object...args) {
-		println(ConsoleColor.DEFAULT, message, args);
+		System.out.println(toString(message, args));
 	}
 	// =========================================================================
 

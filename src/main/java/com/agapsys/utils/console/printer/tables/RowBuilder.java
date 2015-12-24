@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 
 public final class RowBuilder {
 	// CLASS SCOPE =============================================================
+	private static final boolean DEBUG_MODE = false;
 	// =========================================================================
 
 	// INSTANCE SCOPE ==========================================================
@@ -161,23 +162,27 @@ public final class RowBuilder {
 	
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("[");
-		
-		boolean firstCell = true;
-		for (Cell cell : cells) {
-			
-			if (!firstCell) {
-				sb.append(", ");
-			} else {
-				firstCell = false;
+		if (DEBUG_MODE) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("[");
+
+			boolean firstCell = true;
+			for (Cell cell : cells) {
+
+				if (!firstCell) {
+					sb.append(", ");
+				} else {
+					firstCell = false;
+				}
+
+				sb.append("\"").append(cell.toString()).append("\"");
 			}
-			
-			sb.append("\"").append(cell.toString()).append("\"");
+
+			sb.append("]");
+			return sb.toString();
+		} else {
+			return _getRowString();
 		}
-		
-		sb.append("]");
-		return sb.toString();
 	}
 	// =========================================================================
 }

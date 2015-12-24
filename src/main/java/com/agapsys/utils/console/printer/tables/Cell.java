@@ -81,7 +81,7 @@ class Cell {
 				displayString = padding + displayString;
 			}
 
-			displayString = ConsolePrinter.getColorString(cellProperties.getFgColor(), cellProperties.getBgColor(), displayString);
+			displayString = ConsolePrinter.toString(cellProperties.getFgColor(), cellProperties.getBgColor(), displayString);
 			sb.append(displayString);
 		
 		return sb.toString();

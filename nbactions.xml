@@ -10,7 +10,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath com.agapsys.utils.console.tmp.ConsoleUtilsTest</exec.args>
+                <exec.args>-H -x java -classpath %classpath com.agapsys.utils.console.printer.TableTest</exec.args>
                 <exec.executable>xfce4-terminal</exec.executable>
             </properties>
         </action>

@@ -14,25 +14,22 @@
  * limitations under the License.
  */
 
-package com.agapsys.utils.console.printer.tables;
+package com.agapsys.utils.console.printer;
 
-import com.agapsys.utils.console.printer.ConsoleColor;
-import com.agapsys.utils.console.printer.ConsoleFormat;
-import com.agapsys.utils.console.printer.FormatEscapeBuilder;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class FormatEscapeBuilderTest {
 	@Test
 	public void emptyAttrs() {
-		String msg = new FormatEscapeBuilder().escape("Hello world");
+		String msg = new FormatEscapeBuilder().toString("Hello world");
 		assertEquals("Hello world", msg);
 	}
 	
 	@Test
 	public void fgColorTest() {
 		String msg = "Hello world";
-		msg = new FormatEscapeBuilder().setFgColor(ConsoleColor.CYAN).escape(msg);
+		msg = new FormatEscapeBuilder().setFgColor(ConsoleColor.CYAN).toString(msg);
 		String expected = String.format("\033[%dmHello world\033[0m", ConsoleColor.CYAN.getFgCode());
 		assertEquals(expected, msg);
 	}
@@ -40,7 +37,7 @@ public class FormatEscapeBuilderTest {
 	@Test
 	public void bgColorTest() {
 		String msg = "Hello world";
-		msg = new FormatEscapeBuilder().setBgColor(ConsoleColor.CYAN).escape(msg);
+		msg = new FormatEscapeBuilder().setBgColor(ConsoleColor.CYAN).toString(msg);
 		String expected = String.format("\033[%dmHello world\033[0m", ConsoleColor.CYAN.getBgCode());
 		assertEquals(expected, msg);
 	}
@@ -48,12 +45,12 @@ public class FormatEscapeBuilderTest {
 	@Test
 	public void fgBgColorTest() {
 		// Fg, Bg
-		String msg = new FormatEscapeBuilder().setFgColor(ConsoleColor.CYAN).setBgColor(ConsoleColor.CYAN).escape("Hello world");
+		String msg = new FormatEscapeBuilder().setFgColor(ConsoleColor.CYAN).setBgColor(ConsoleColor.CYAN).toString("Hello world");
 		String expected = String.format("\033[%d;%dmHello world\033[0m", ConsoleColor.CYAN.getBgCode(), ConsoleColor.CYAN.getFgCode());
 		assertEquals(expected, msg);
 		
 		// Bg, Fg
-		msg = new FormatEscapeBuilder().setBgColor(ConsoleColor.CYAN).setFgColor(ConsoleColor.CYAN).escape("Hello world");
+		msg = new FormatEscapeBuilder().setBgColor(ConsoleColor.CYAN).setFgColor(ConsoleColor.CYAN).toString("Hello world");
 		expected = String.format("\033[%d;%dmHello world\033[0m", ConsoleColor.CYAN.getBgCode(), ConsoleColor.CYAN.getFgCode());
 		assertEquals(expected, msg);
 	}
@@ -61,17 +58,17 @@ public class FormatEscapeBuilderTest {
 	@Test
 	public void boldTest() {
 		// bold == true
-		String msg = new FormatEscapeBuilder().setBold(true).escape("Hello world");
+		String msg = new FormatEscapeBuilder().setBold(true).toString("Hello world");
 		String expected = String.format("\033[%dmHello world\033[0m", ConsoleFormat.BOLD.getSetCode());
 		assertEquals(expected, msg);
 		
 		// bold == true
-		msg = new FormatEscapeBuilder().setBold().escape("Hello world");
+		msg = new FormatEscapeBuilder().setBold().toString("Hello world");
 		expected = String.format("\033[%dmHello world\033[0m", ConsoleFormat.BOLD.getSetCode());
 		assertEquals(expected, msg);
 		
 		// bold == false
-		msg = new FormatEscapeBuilder().setBold(false).escape("Hello world");
+		msg = new FormatEscapeBuilder().setBold(false).toString("Hello world");
 		expected = String.format("\033[%dmHello world\033[0m", ConsoleFormat.BOLD.getResetCode());
 		assertEquals(expected, msg);
 	}
@@ -79,35 +76,35 @@ public class FormatEscapeBuilderTest {
 	@Test
 	public void boldUnderlined() {
 		// bold == true, underlined == true
-		String msg = new FormatEscapeBuilder().setBold(true).setUnderlined(true).escape("Hello world");
+		String msg = new FormatEscapeBuilder().setBold(true).setUnderlined(true).toString("Hello world");
 		String expected = String.format("\033[%d;%dmHello world\033[0m", ConsoleFormat.BOLD.getSetCode(), ConsoleFormat.UNDERLINED.getSetCode());
 		assertEquals(expected, msg);
 		
 		// bold == true, underlined == true
-		msg = new FormatEscapeBuilder().setBold().setUnderlined().escape("Hello world");
+		msg = new FormatEscapeBuilder().setBold().setUnderlined().toString("Hello world");
 		expected = String.format("\033[%d;%dmHello world\033[0m", ConsoleFormat.BOLD.getSetCode(), ConsoleFormat.UNDERLINED.getSetCode());
 		assertEquals(expected, msg);
 		
 		
 		// bold == true, underlined == false
-		msg = new FormatEscapeBuilder().setBold(true).setUnderlined(false).escape("Hello world");
+		msg = new FormatEscapeBuilder().setBold(true).setUnderlined(false).toString("Hello world");
 		expected = String.format("\033[%d;%dmHello world\033[0m", ConsoleFormat.BOLD.getSetCode(), ConsoleFormat.UNDERLINED.getResetCode());
 		assertEquals(expected, msg);
 		
 		// bold == true, underlined == false
-		msg = new FormatEscapeBuilder().setBold().setUnderlined(false).escape("Hello world");
+		msg = new FormatEscapeBuilder().setBold().setUnderlined(false).toString("Hello world");
 		expected = String.format("\033[%d;%dmHello world\033[0m", ConsoleFormat.BOLD.getSetCode(), ConsoleFormat.UNDERLINED.getResetCode());
 		assertEquals(expected, msg);
 		
 		// bold == false, underlined == false
-		msg = new FormatEscapeBuilder().setBold(false).setUnderlined(false).escape("Hello world");
+		msg = new FormatEscapeBuilder().setBold(false).setUnderlined(false).toString("Hello world");
 		expected = String.format("\033[%d;%dmHello world\033[0m", ConsoleFormat.BOLD.getResetCode(), ConsoleFormat.UNDERLINED.getResetCode());
 		assertEquals(expected, msg);
 	}
 	
 	@Test
 	public void fgBgBoldUnderline() {
-		String msg = new FormatEscapeBuilder().setBgColor(ConsoleColor.RED).setFgColor(ConsoleColor.YELLOW).setBold().setUnderlined().escape("Hello world");
+		String msg = new FormatEscapeBuilder().setBgColor(ConsoleColor.RED).setFgColor(ConsoleColor.YELLOW).setBold().setUnderlined().toString("Hello world");
 		String expected = String.format("\033[%d;%d;%d;%dmHello world\033[0m",
 			ConsoleColor.RED.getBgCode(),
 			ConsoleColor.YELLOW.getFgCode(),
@@ -116,5 +113,33 @@ public class FormatEscapeBuilderTest {
 		);
 		
 		assertEquals(expected, msg);
+	}
+	
+	@Test
+	public void fgBgBoldUnderlineWithNewLine() {
+		String msg = new FormatEscapeBuilder().setBgColor(ConsoleColor.RED).setFgColor(ConsoleColor.YELLOW).setBold().setUnderlined().toString("Hello\n%s", "world!");
+		
+		String lineFormat = String.format("\033[%d;%d;%d;%dm%%s\033[0m",
+			ConsoleColor.RED.getBgCode(),
+			ConsoleColor.YELLOW.getFgCode(),
+			ConsoleFormat.BOLD.getSetCode(), 
+			ConsoleFormat.UNDERLINED.getSetCode()
+		);
+				
+		String expected = String.format("%s\n%s",
+			String.format(lineFormat, "Hello"),
+			String.format(lineFormat, "world!")
+		);
+		
+		assertEquals(expected, msg);
+		
+		String colorString = ConsolePrinter.toString(ConsoleColor.CYAN, "aaaaa0\nbbbbbbbbbbbb\nccccccccccccccccc");
+		StringBuilder sb = new StringBuilder();
+		sb.append("\033[36maaaaa0\033[0m\n");
+		sb.append("\033[36mbbbbbbbbbbbb\033[0m\n");
+		sb.append("\033[36mccccccccccccccccc\033[0m");
+		
+		assertEquals(sb.toString(), colorString);
+		ConsolePrinter.println(sb.toString());
 	}
 }

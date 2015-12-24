@@ -16,8 +16,6 @@
 
 package com.agapsys.utils.console.args;
 
-import java.util.List;
-
 /**
  * @author Leandro Oliveira (leandro@agapsys.com)
  */
@@ -36,12 +34,13 @@ public class Test {
 		//String cmd = "-c /tmp/file1 /tmp/file2 -l /tmp/file3 /tmp/file4 --extract-files /tmp/filex1 /tmp/filex2 /tmp/filex3 /tmp/filex4"; //  unknown option -l
 		String cmd = "-c /tmp/file1 /tmp/file2 -c /tmp/file3 /tmp/file4 --unknown-option /tmp/filex1 /tmp/filex2 /tmp/filex3 /tmp/filex4"; //  unknown option --unknown-option
 
-		OptionParser parser = new OptionParserBuilder()
-			.addOptionDefinition(CopyOption.class)
-			.addOptionDefinition(ExtractOption.class)
-			.build();
-
-		List<Option> options = parser.getOptions(getArgs(cmd));
-		int a = 0;
+//		OptionParser parser = new OptionParserBuilder()
+//			.addOptionDefinition(CopyOption.class)
+//			.addOptionDefinition(ExtractOption.class)
+//			//.addOptionDefinition(HelpOptionDefinition.class)
+//			.build();
+//
+//		List<Option> options = parser.getOptions(getArgs(cmd));
+//		int a = 0;
 	}
 }

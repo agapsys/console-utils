@@ -22,8 +22,8 @@ import com.agapsys.utils.console.args.OptionDefinition;
 public class CopyOption implements OptionDefinition {
 
 	@Override
-	public Character getShortName() {
-		return 'c';
+	public String getShortName() {
+		return "c";
 	}
 
 	@Override
@@ -46,4 +46,8 @@ public class CopyOption implements OptionDefinition {
 		return null;
 	}
 
+	@Override
+	public String getParamDescription() {
+		return "<file1> [file2] [file3]...";
+	}
 }

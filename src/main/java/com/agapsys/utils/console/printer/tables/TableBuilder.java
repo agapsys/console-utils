@@ -94,8 +94,11 @@ public class TableBuilder {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
-		for (RowBuilder row : rows) {
-			sb.append(row._getRowString()).append("\n");
+		for (int i = 0; i < rows.size(); i++) {
+			RowBuilder row = rows.get(i);
+			sb.append(row._getRowString());
+			if (i < rows.size() - 1)
+				sb.append("\n");
 		}
 		
 		return sb.toString();

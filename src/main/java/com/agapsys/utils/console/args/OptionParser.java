@@ -30,8 +30,6 @@ public abstract class OptionParser {
 
 	public abstract List<OptionDefinition> getOptionDefinitions();
 
-	public abstract OptionDefinition getOptionDefinition(char shortName);
-
-	public abstract OptionDefinition getOptionDefinition(String longName);
+	public abstract OptionDefinition getOptionDefinition(String name);
 	// =========================================================================
 }

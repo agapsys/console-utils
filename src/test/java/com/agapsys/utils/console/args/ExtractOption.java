@@ -22,8 +22,8 @@ import com.agapsys.utils.console.args.OptionDefinition;
 public class ExtractOption implements OptionDefinition {
 
 	@Override
-	public Character getShortName() {
-		return 'x';
+	public String getShortName() {
+		return "x";
 	}
 
 	@Override
@@ -44,6 +44,11 @@ public class ExtractOption implements OptionDefinition {
 	@Override
 	public String getLongDescription() {
 		return null;
+	}
+
+	@Override
+	public String getParamDescription() {
+		return "<file1> [file2] [file3]...";
 	}
 
 }
