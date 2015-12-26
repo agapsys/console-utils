@@ -109,7 +109,8 @@ class DefaultOptionParser extends OptionParser {
 			}
 		}
 
-		options.add(new Option(this, currentOptionDefinition, currentParamList));
+		if (currentOptionDefinition != null)
+			options.add(new Option(this, currentOptionDefinition, currentParamList));
 
 		return options;
 	}

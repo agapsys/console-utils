@@ -19,6 +19,7 @@ package com.agapsys.utils.console.args;
 import com.agapsys.utils.console.printer.ConsoleColor;
 import com.agapsys.utils.console.printer.ConsolePrinter;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,7 +29,18 @@ import org.junit.Test;
 public class OptionParserTest {
 	// CLASS SCOPE =============================================================
 	private static String[] __getArgs(String cmd) {
-		return cmd.split(" ");
+		cmd = cmd.trim();
+		
+		if (cmd.isEmpty())
+			return new String[] {};
+		
+		String[] args = cmd.split("\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+		
+		for (int i = 0; i < args.length; i++) {
+			args[i] = StringUtils.strip(args[i], " \"");
+		}
+		
+		return args;
 	}
 	// =========================================================================
 	
@@ -44,7 +56,7 @@ public class OptionParserTest {
 	}
 	
 	@Test
-	public void okOptions() {
+	public void okOptions() throws ParsingException {
 		String cmd;
 		List<Option> options;
 		ParsingException err;
@@ -118,6 +130,15 @@ public class OptionParserTest {
 		Assert.assertEquals("/tmp/filex2", option.getParams().get(1));
 		Assert.assertEquals("/tmp/filex3", option.getParams().get(2));
 		Assert.assertEquals("/tmp/filex4", option.getParams().get(3));
+		// ---------------------------------------------------------------------
+		
+		// ---------------------------------------------------------------------
+		cmd = "-h \"abcd efg\"";
+		ConsolePrinter.println(ConsoleColor.MAGENTA, cmd);
+		options = parser.getOptions(__getArgs(cmd));
+		Assert.assertEquals(1, options.size());
+		Assert.assertEquals(1, options.get(0).getParams().size());
+		Assert.assertEquals("abcd efg", options.get(0).getParams().get(0));
 		// ---------------------------------------------------------------------
 	}
 	
@@ -282,6 +303,13 @@ public class OptionParserTest {
 			
 		Assert.assertNotNull(err);
 		Assert.assertEquals("Invalid short option sequence: -ccx", err.getMessage());
+	}
+	
+	@Test
+	public void testNoOptions() throws ParsingException {
+		String cmd = "";
+		List<Option> options = parser.getOptions(__getArgs(cmd));
+		Assert.assertEquals(0, options.size());
 	}
 	
 	@Test
