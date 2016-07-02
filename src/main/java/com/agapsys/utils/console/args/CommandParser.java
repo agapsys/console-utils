@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Agapsys Tecnologia Ltda-ME.
+ * Copyright 2016 Agapsys Tecnologia Ltda-ME.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,33 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.agapsys.utils.console.args;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
- * @author Leandro Oliveira (leandro@agapsys.com)
+ * Represents a command-line command parser.
+ * 
+ * @author Leandro Oliveira (ljbo.82@gmail.com)
  */
-public abstract class OptionParser {
-	// CLASS SCOPE =============================================================
-	public static List<Option> getOptionsByClass(List<Option> parsedOptions, Class<? extends OptionDefinition> optionDefinitionClass) {
-		List<Option> filteredOptions = new LinkedList<>();
-		for (Option option : parsedOptions) {
-			if (option.getDefinition().getClass() == optionDefinitionClass) {
-				filteredOptions.add(option);
-			}
+public class CommandParser {
+	// STATIC SCOPE ============================================================
+	private static CommandParser singleton;
+	
+	public static CommandParser getInstance() {
+		synchronized(CommandParser.class) {
+			if (singleton == null) singleton = new CommandParser();
+			
+			return singleton;
 		}
-		return filteredOptions;
 	}
 	// =========================================================================
-
+	
 	// INSTANCE SCOPE ==========================================================
-	public abstract List<Option> getOptions(String[] args) throws ParsingException;
-
-	public abstract List<OptionDefinition> getOptionDefinitions();
-
-	public abstract OptionDefinition getOptionDefinition(String name);
+	protected CommandParser() {}
+	
+	public Command getCommand(String[] args) throws ParsingException {
+		return new DefaultCommand(args);
+	}
 	// =========================================================================
 }

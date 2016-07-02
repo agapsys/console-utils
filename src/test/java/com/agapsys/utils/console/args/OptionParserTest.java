@@ -45,35 +45,65 @@ public class OptionParserTest {
 	// =========================================================================
 	
 	// INSTANCE SCOPE ==========================================================
-	private final OptionParser parser;
+	private final CommandParser commandParser = CommandParser.getInstance();
 	
-	public OptionParserTest() {		
-		parser = new OptionParserBuilder()
-			.addOptionDefinition(CopyOption.class)
-			.addOptionDefinition(ExtractOption.class)
-			.addOptionDefinition(CustomHelpOptionDefinition.class)
-			.build();
-	}
 	
 	@Test
 	public void okOptions() throws ParsingException {
-		String cmd;
-		List<Option> options;
-		ParsingException err;
-		Option option;
+		Command cmd;
+		String cmdStr;
+		Throwable error;
+		List<String> optionArgs;
 		
 		// ---------------------------------------------------------------------
-		err = null;
+		error = null;
+		cmd   = null;
+		
+		try {	
+			cmdStr = "-c /tmp/file1 /tmp/file2 --copy /tmp/file3 --extract-files /tmp/filex1 /tmp/filex2 /tmp/filex3 /tmp/filex4 -c /tmp/file10";
+			cmd = commandParser.getCommand(__getArgs(cmdStr));
+		} catch (ParsingException ex) {
+			error = ex;
+		}
+		
+		Assert.assertNotNull(cmd);
+		Assert.assertNull(error);
+		Assert.assertNull(cmd.getName());
+		Assert.assertEquals(0, cmd.getArgs());
+		Assert.assertEquals(3, cmd.getOptions().size());
+		
+		optionArgs = cmd.getOptions().get("c");
+		Assert.assertTrue(option.getDefinition() instanceof CopyOption);
+		Assert.assertEquals(2, option.getParams().size());
+		Assert.assertEquals("/tmp/file1", option.getParams().get(0));
+		Assert.assertEquals("/tmp/file2", option.getParams().get(1));
+		
+		option = options.get(1);
+		Assert.assertTrue(option.getDefinition() instanceof CopyOption);
+		Assert.assertEquals(1, option.getParams().size());
+		Assert.assertEquals("/tmp/file3", option.getParams().get(0));
+		
+		option = options.get(2);
+		Assert.assertTrue(option.getDefinition() instanceof ExtractOption);
+		Assert.assertEquals(4, option.getParams().size());
+		Assert.assertEquals("/tmp/filex1", option.getParams().get(0));
+		Assert.assertEquals("/tmp/filex2", option.getParams().get(1));
+		Assert.assertEquals("/tmp/filex3", option.getParams().get(2));
+		Assert.assertEquals("/tmp/filex4", option.getParams().get(3));
+		// ---------------------------------------------------------------------
+		
+		// ---------------------------------------------------------------------
+		error = null;
 		options = null;
 		
 		try {	
-			cmd = "-c /tmp/file1 /tmp/file2 --copy /tmp/file3 --extract-files /tmp/filex1 /tmp/filex2 /tmp/filex3 /tmp/filex4";
-			options = parser.getOptions(__getArgs(cmd));
+			cmdStr = "-c /tmp/file1 /tmp/file2 -c /tmp/file3 --extract-files /tmp/filex1 /tmp/filex2 /tmp/filex3 /tmp/filex4";
+			options = parser.getOptions(__getArgs(cmdStr));
 		} catch (ParsingException ex) {
-			err = ex;
+			error = ex;
 		}
 		
-		Assert.assertNull(err);
+		Assert.assertNull(error);
 		Assert.assertNotNull(options);
 		Assert.assertEquals(3, options.size());
 		
@@ -98,44 +128,9 @@ public class OptionParserTest {
 		// ---------------------------------------------------------------------
 		
 		// ---------------------------------------------------------------------
-		err = null;
-		options = null;
-		
-		try {	
-			cmd = "-c /tmp/file1 /tmp/file2 -c /tmp/file3 --extract-files /tmp/filex1 /tmp/filex2 /tmp/filex3 /tmp/filex4";
-			options = parser.getOptions(__getArgs(cmd));
-		} catch (ParsingException ex) {
-			err = ex;
-		}
-		
-		Assert.assertNull(err);
-		Assert.assertNotNull(options);
-		Assert.assertEquals(3, options.size());
-		
-		option = options.get(0);
-		Assert.assertTrue(option.getDefinition() instanceof CopyOption);
-		Assert.assertEquals(2, option.getParams().size());
-		Assert.assertEquals("/tmp/file1", option.getParams().get(0));
-		Assert.assertEquals("/tmp/file2", option.getParams().get(1));
-		
-		option = options.get(1);
-		Assert.assertTrue(option.getDefinition() instanceof CopyOption);
-		Assert.assertEquals(1, option.getParams().size());
-		Assert.assertEquals("/tmp/file3", option.getParams().get(0));
-		
-		option = options.get(2);
-		Assert.assertTrue(option.getDefinition() instanceof ExtractOption);
-		Assert.assertEquals(4, option.getParams().size());
-		Assert.assertEquals("/tmp/filex1", option.getParams().get(0));
-		Assert.assertEquals("/tmp/filex2", option.getParams().get(1));
-		Assert.assertEquals("/tmp/filex3", option.getParams().get(2));
-		Assert.assertEquals("/tmp/filex4", option.getParams().get(3));
-		// ---------------------------------------------------------------------
-		
-		// ---------------------------------------------------------------------
-		cmd = "-h \"abcd efg\"";
-		ConsolePrinter.println(ConsoleColor.MAGENTA, cmd);
-		options = parser.getOptions(__getArgs(cmd));
+		cmdStr = "-h \"abcd efg\"";
+		ConsolePrinter.println(ConsoleColor.MAGENTA, cmdStr);
+		options = parser.getOptions(__getArgs(cmdStr));
 		Assert.assertEquals(1, options.size());
 		Assert.assertEquals(1, options.get(0).getParams().size());
 		Assert.assertEquals("abcd efg", options.get(0).getParams().get(0));

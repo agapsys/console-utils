@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Agapsys Tecnologia Ltda-ME.
+ * Copyright 2016 Agapsys Tecnologia Ltda-ME.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,32 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.agapsys.utils.console.args;
 
+import java.util.List;
+import java.util.Map;
+
 /**
- * @author Leandro Oliveira (leandro@agapsys.com)
+ * Represents a command-line command
+ * @author Leandro Oliveira (ljbo.82@gmail.com)
  */
-public class ExtractOption extends OptionDefinition {
-
-	@Override
-	public String getShortName() {
-		return "x";
-	}
-
-	@Override
-	public String getLongName() {
-		return "extract-files";
-	}
-
-	@Override
-	public String getDescription() {
-		return "Extract option description";
-	}
-
-	@Override
-	public String getParamDescription() {
-		return "<file> [file2] [file3]...";
-	}
-
+public interface Command {
+	/**
+	 * Return command name.
+	 * 
+	 * @return command name.
+	 */
+	public String getName();
+	
+	/**
+	 * Return command arguments.
+	 * 
+	 * @return command arguments.
+	 */
+	public List<String> getArgs();
+	
+	/**
+	 * Return command options.
+	 * 
+	 * @return command options.
+	 */
+	public Map<String, List<String>> getOptions();
 }
