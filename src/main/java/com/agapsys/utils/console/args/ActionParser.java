@@ -16,17 +16,17 @@
 package com.agapsys.utils.console.args;
 
 /**
- * Represents a command-line command parser.
+ * Represents a command-line action parser.
  * 
  * @author Leandro Oliveira (ljbo.82@gmail.com)
  */
-public class CommandParser {
+public class ActionParser {
 	// STATIC SCOPE ============================================================
-	private static CommandParser singleton;
+	private static ActionParser singleton;
 	
-	public static CommandParser getInstance() {
-		synchronized(CommandParser.class) {
-			if (singleton == null) singleton = new CommandParser();
+	public static ActionParser getInstance() {
+		synchronized(ActionParser.class) {
+			if (singleton == null) singleton = new ActionParser();
 			
 			return singleton;
 		}
@@ -34,10 +34,10 @@ public class CommandParser {
 	// =========================================================================
 	
 	// INSTANCE SCOPE ==========================================================
-	protected CommandParser() {}
+	protected ActionParser() {}
 	
-	public Command getCommand(String[] args) throws ParsingException {
-		return new DefaultCommand(args);
+	public Action getAction(String[] args) throws ParsingException {
+		return new DefaultAction(args);
 	}
 	// =========================================================================
 }

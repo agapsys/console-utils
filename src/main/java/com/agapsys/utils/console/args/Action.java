@@ -19,28 +19,28 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represents a command-line command
+ * Represents a command-line action
  * @author Leandro Oliveira (ljbo.82@gmail.com)
  */
-public interface Command {
+public interface Action {
 	/**
-	 * Return command name.
+	 * Returns action name.
 	 * 
-	 * @return command name.
+	 * @return action name. If action has no name, returns null.
 	 */
 	public String getName();
 	
 	/**
-	 * Return command arguments.
+	 * Return action arguments.
 	 * 
-	 * @return command arguments.
+	 * @return action arguments.
 	 */
 	public List<String> getArgs();
 	
 	/**
-	 * Return command options.
+	 * Return sub-actions associated with this instance.
 	 * 
-	 * @return command options.
+	 * @return sub-actions associated with this instance.
 	 */
-	public Map<String, List<String>> getOptions();
+	public Map<String, List<String>> getSubActions();
 }
