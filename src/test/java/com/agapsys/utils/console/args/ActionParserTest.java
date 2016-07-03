@@ -21,7 +21,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @author Leandro Oliveira (leandro@agapsys.com)
+ * @author Leandro Oliveira (ljbo.82@gmail.com)
  */
 public class ActionParserTest {
 	// CLASS SCOPE =============================================================
