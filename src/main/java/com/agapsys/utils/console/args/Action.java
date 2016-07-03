@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Agapsys Tecnologia Ltda-ME.
+ * Copyright 2016 Leandro José Britto de Oliveira.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.agapsys.utils.console.args;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * @author Leandro Oliveira (leandro@agapsys.com)
+ * Represents a command-line action
+ * @author Leandro Oliveira (ljbo.82@gmail.com)
  */
-public abstract class OptionDefinition {
+public interface Action {
+	/**
+	 * Returns action name.
+	 * 
+	 * @return action name. If action has no name, returns null.
+	 */
+	public String getName();
 	
-	public abstract String getShortName();
-
-	public abstract String getLongName();
-
-	public boolean isUnique() {
-		return true;
-	}
-
-	public abstract String getParamDescription();
+	/**
+	 * Return action arguments.
+	 * 
+	 * @return action arguments.
+	 */
+	public List<String> getArgs();
 	
-	public abstract String getDescription();
-
-	public String getDetailedDescription() {
-		return null;
-	}
-	
-	public void exec(OptionParser parser, List<String> params) throws ParsingException {}
+	/**
+	 * Return sub-actions associated with this instance.
+	 * 
+	 * @return sub-actions associated with this instance.
+	 */
+	public Map<String, List<String>> getSubActions();
 }
