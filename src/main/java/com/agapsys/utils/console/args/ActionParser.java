@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Leandro José Britto de Oliveira.
+ * Copyright 2016 Agapsys Tecnologia Ltda-ME.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,27 +17,25 @@ package com.agapsys.utils.console.args;
 
 /**
  * Represents a command-line action parser.
- * 
- * @author Leandro Oliveira (ljbo.82@gmail.com)
  */
 public class ActionParser {
-	// STATIC SCOPE ============================================================
-	private static ActionParser singleton;
-	
-	public static ActionParser getInstance() {
-		synchronized(ActionParser.class) {
-			if (singleton == null) singleton = new ActionParser();
-			
-			return singleton;
-		}
-	}
-	// =========================================================================
-	
-	// INSTANCE SCOPE ==========================================================
-	protected ActionParser() {}
-	
-	public Action getAction(String[] args) throws ParsingException {
-		return new DefaultAction(args);
-	}
-	// =========================================================================
+    // STATIC SCOPE ============================================================
+    private static ActionParser singleton;
+
+    public static ActionParser getInstance() {
+        synchronized(ActionParser.class) {
+            if (singleton == null) singleton = new ActionParser();
+
+            return singleton;
+        }
+    }
+    // =========================================================================
+
+    // INSTANCE SCOPE ==========================================================
+    protected ActionParser() {}
+
+    public Action getAction(String[] args) throws ParsingException {
+        return new DefaultAction(args);
+    }
+    // =========================================================================
 }

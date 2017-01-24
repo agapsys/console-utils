@@ -16,11 +16,8 @@
 
 package com.agapsys.utils.console.args;
 
-/**
- * @author Leandro Oliveira (leandro@agapsys.com)
- */
 public class ParsingException extends Exception {
-	public ParsingException(String message, Object...msgArgs) {
-		super(msgArgs.length > 0 ? String.format(message, msgArgs) : message);
-	}
+    public ParsingException(String message, Object...msgArgs) {
+        super(msgArgs.length > 0 ? String.format(message, msgArgs) : message);
+    }
 }

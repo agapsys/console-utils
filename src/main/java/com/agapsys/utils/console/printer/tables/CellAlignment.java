@@ -16,12 +16,12 @@
 package com.agapsys.utils.console.printer.tables;
 
 public enum CellAlignment {
-	LEFT,
-	RIGHT;
+    LEFT,
+    RIGHT;
 
-	@Override		
-	public String toString() {
-		return name();
-	}
+    @Override        
+    public String toString() {
+        return name();
+    }
 }
-	
+    

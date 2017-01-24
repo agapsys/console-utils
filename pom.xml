@@ -24,41 +24,41 @@ limitations under the License.
     <version>0.1.0</version>
     <packaging>jar</packaging>
 
-	<properties>
+    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
 
-	<name>Console Utilities</name>
-	<description>Console utilities for java applications</description>
-	<url>https://github.com/agapsys/console-utils</url>
+    <name>Console Utilities</name>
+    <description>Console utilities for java applications</description>
+    <url>https://github.com/agapsys/console-utils</url>
 
-	<licenses>
-		<license>
-			<name>The Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
 
-	<developers>
-		<developer>
-			<name>Agapsys Tecnologia Ltda-ME</name>
-			<email>contact@agapsys.com</email>
-			<organization>Agapsys Tecnologia Ltda-ME</organization>
-			<organizationUrl>http://www.agapsys.com</organizationUrl>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <name>Agapsys Tecnologia Ltda-ME</name>
+            <email>contact@agapsys.com</email>
+            <organization>Agapsys Tecnologia Ltda-ME</organization>
+            <organizationUrl>http://www.agapsys.com</organizationUrl>
+        </developer>
+    </developers>
 
-	<scm>
-		<connection>scm:git:git@github.com:agapsys/console-utils.git</connection>
-		<url>git@github.com:agapsys/console-utils.git</url>
-	</scm>
+    <scm>
+        <connection>scm:git:git@github.com:agapsys/console-utils.git</connection>
+        <url>git@github.com:agapsys/console-utils.git</url>
+    </scm>
 
-	<organization>
-		<name>Agapsys Tecnologia Ltda-ME</name>
-		<url>http://www.agapsys.com</url>
-	</organization>
+    <organization>
+        <name>Agapsys Tecnologia Ltda-ME</name>
+        <url>http://www.agapsys.com</url>
+    </organization>
 
     <dependencies>
         <dependency>

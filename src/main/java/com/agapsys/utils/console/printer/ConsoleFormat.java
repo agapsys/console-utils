@@ -17,35 +17,35 @@ package com.agapsys.utils.console.printer;
 
 /**
  * Console text formats.
+ * 
  * For details, check <a href="http://misc.flogisoft.com/bash/tip_colors_and_formatting">this link</a>
- * @author Leandro Oliveira (leandro@agapsys.com)
  */
 public enum ConsoleFormat {
-	BOLD       (1, 21),
-	DIM        (2, 22),
-	UNDERLINED (4, 23),
-	BLINK      (5, 25),
-	REVERSE    (7, 27),
-	HIDDEN     (8, 28);
+    BOLD       (1, 21),
+    DIM        (2, 22),
+    UNDERLINED (4, 23),
+    BLINK      (5, 25),
+    REVERSE    (7, 27),
+    HIDDEN     (8, 28);
 
-	private final int setCode;
-	private final int resetCode;
+    private final int setCode;
+    private final int resetCode;
 
-	private ConsoleFormat(int setCode, int resetCode) {
-		this.setCode = setCode;
-		this.resetCode = resetCode;
-	}
+    private ConsoleFormat(int setCode, int resetCode) {
+        this.setCode = setCode;
+        this.resetCode = resetCode;
+    }
 
-	public int getSetCode() {
-		return setCode;
-	}
+    public int getSetCode() {
+        return setCode;
+    }
 
-	public int getResetCode() {
-			return resetCode;
-		}
-	
-	@Override
-	public String toString() {
-		return name();
-	}
+    public int getResetCode() {
+            return resetCode;
+        }
+
+    @Override
+    public String toString() {
+        return name();
+    }
 }

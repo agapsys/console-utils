@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Leandro José Britto de Oliveira.
+ * Copyright 2016 Agapsys Tecnologia Ltda-ME.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,27 +20,26 @@ import java.util.Map;
 
 /**
  * Represents a command-line action
- * @author Leandro Oliveira (ljbo.82@gmail.com)
  */
 public interface Action {
-	/**
-	 * Returns action name.
-	 * 
-	 * @return action name. If action has no name, returns null.
-	 */
-	public String getName();
-	
-	/**
-	 * Return action arguments.
-	 * 
-	 * @return action arguments.
-	 */
-	public List<String> getArgs();
-	
-	/**
-	 * Return sub-actions associated with this instance.
-	 * 
-	 * @return sub-actions associated with this instance.
-	 */
-	public Map<String, List<String>> getSubActions();
+    /**
+     * Returns action name.
+     *
+     * @return action name. If action has no name, returns null.
+     */
+    public String getName();
+
+    /**
+     * Return action arguments.
+     *
+     * @return action arguments.
+     */
+    public List<String> getArgs();
+
+    /**
+     * Return sub-actions associated with this instance.
+     *
+     * @return sub-actions associated with this instance.
+     */
+    public Map<String, List<String>> getSubActions();
 }

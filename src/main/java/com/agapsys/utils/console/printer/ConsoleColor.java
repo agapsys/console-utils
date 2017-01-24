@@ -16,10 +16,10 @@
 
 package com.agapsys.utils.console.printer;
 
-/** 
+/**
 * Console colors.
+* 
 * For details, check <a href="http://misc.flogisoft.com/bash/tip_colors_and_formatting">this link</a>
-* @author Leandro Oliveira (leandro@agapsys.com)
 */
 public enum ConsoleColor {
    DEFAULT       (39,  49),
@@ -44,20 +44,20 @@ public enum ConsoleColor {
    private final int bgCode;
 
    public int getFgCode() {
-	   return fgCode;
+       return fgCode;
    }
 
    public int getBgCode() {
-	   return bgCode;
+       return bgCode;
    }
 
    private ConsoleColor(int fgCode, int bgCode){
-	   this.fgCode = fgCode;
-	   this.bgCode = bgCode;
+       this.fgCode = fgCode;
+       this.bgCode = bgCode;
    }
 
    @Override
    public String toString() {
-	   return name();
+       return name();
    }
 }

@@ -17,54 +17,53 @@
 package com.agapsys.utils.console.printer;
 
 /**
- * ConsolePrinter utilities
- * @author Leandro Oliveira (leandro@agapsys.com)
+ * ConsolePrinter utilities.
  */
 public class ConsolePrinter {
-	// CLASS SCOPE =============================================================
-	public static String toString(String str, Object...strArgs) {
-		if (strArgs.length > 0)
-			str = String.format(str, strArgs);
-		
-		return str;
-	}
-	
-	public static String toString(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
-		return new FormatEscapeBuilder().setFgColor(fgColor).setBgColor(bgColor).toString(ConsolePrinter.toString(message, args));
-	}
-	
-	public static String toString(ConsoleColor fgColor, String message, Object...args) {
-		return new FormatEscapeBuilder().setFgColor(fgColor).toString(ConsolePrinter.toString(message, args));
-	}
-	
-	
-	public static void print(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
-		System.out.print(new FormatEscapeBuilder().setFgColor(fgColor).setBgColor(bgColor).toString(ConsolePrinter.toString(message, args)));
-	}
-	
-	public static void print(ConsoleColor fgColor, String message, Object...args) {
-		System.out.print(new FormatEscapeBuilder().setFgColor(fgColor).toString(ConsolePrinter.toString(message, args)));
-	}
-	
-	public static void print(String message, Object...args) {
-		System.out.print(ConsolePrinter.toString(message, args));
-	}
-	
-	
-	public static void println(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
-		System.out.println(new FormatEscapeBuilder().setFgColor(fgColor).setBgColor(bgColor).toString(toString(message, args)));
-	}
-	
-	public static void println(ConsoleColor fgColor, String message, Object...args) {
-		System.out.println(new FormatEscapeBuilder().setFgColor(fgColor).toString(toString(message, args)));
-	}
-	
-	public static void println(String message, Object...args) {
-		System.out.println(toString(message, args));
-	}
-	// =========================================================================
+    // CLASS SCOPE =============================================================
+    public static String toString(String str, Object...strArgs) {
+        if (strArgs.length > 0)
+            str = String.format(str, strArgs);
 
-	// INSTANCE SCOPE ==========================================================
-	private ConsolePrinter() {}
-	// =========================================================================
+        return str;
+    }
+
+    public static String toString(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
+        return new FormatEscapeBuilder().setFgColor(fgColor).setBgColor(bgColor).toString(ConsolePrinter.toString(message, args));
+    }
+
+    public static String toString(ConsoleColor fgColor, String message, Object...args) {
+        return new FormatEscapeBuilder().setFgColor(fgColor).toString(ConsolePrinter.toString(message, args));
+    }
+
+
+    public static void print(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
+        System.out.print(new FormatEscapeBuilder().setFgColor(fgColor).setBgColor(bgColor).toString(ConsolePrinter.toString(message, args)));
+    }
+
+    public static void print(ConsoleColor fgColor, String message, Object...args) {
+        System.out.print(new FormatEscapeBuilder().setFgColor(fgColor).toString(ConsolePrinter.toString(message, args)));
+    }
+
+    public static void print(String message, Object...args) {
+        System.out.print(ConsolePrinter.toString(message, args));
+    }
+
+
+    public static void println(ConsoleColor fgColor, ConsoleColor bgColor, String message, Object...args) {
+        System.out.println(new FormatEscapeBuilder().setFgColor(fgColor).setBgColor(bgColor).toString(toString(message, args)));
+    }
+
+    public static void println(ConsoleColor fgColor, String message, Object...args) {
+        System.out.println(new FormatEscapeBuilder().setFgColor(fgColor).toString(toString(message, args)));
+    }
+
+    public static void println(String message, Object...args) {
+        System.out.println(toString(message, args));
+    }
+    // =========================================================================
+
+    // INSTANCE SCOPE ==========================================================
+    private ConsolePrinter() {}
+    // =========================================================================
 }
